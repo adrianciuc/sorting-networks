@@ -72,3 +72,19 @@ hr.small {
 .header h1,h3 {
     color: #bbc4d3;
 }
+
+.top-name {
+    padding: 50px 0;
+}
+
+.top-content {
+    padding: 50px 0;
+}
+
+.bg-primary {
+    background-color: #152738;
+}
+
+.service-item {
+    margin-bottom: 30px;
+}

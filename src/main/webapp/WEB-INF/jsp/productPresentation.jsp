@@ -18,10 +18,12 @@
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/productPresentation.css" rel="stylesheet">
 
 </head>
     <body>
+
+        <!-- Game title login and register area -->
         <header id="top" class="header">
             <div class="text-vertical-center">
                 <h1>Sorting networks game</h1>
@@ -32,5 +34,41 @@
                 <a href="#about" class="btn btn-dark btn-lg">Register</a>
             </div>
         </header>
+
+        <!-- Top sorting networks title -->
+        <section id="top-name" class="top-name">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h2>Here is the top of the best sorting networks found by our players</h2>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container -->
+        </section>
+
+        <!-- Top sorting networks -->
+        <section id="top-content" class="top-content bg-primary">
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col-lg-10 col-lg-offset-1">
+                        <div class="row">
+                            <h2>Nr. 1</h2>
+                        </div>
+                        <div class="row">
+                            <h2>Nr. 2</h2>
+                        </div>
+                        <div class="row">
+                            <h2>Nr. 3</h2>
+                        </div>
+                        <!-- /.row (nested) -->
+                    </div>
+                    <!-- /.col-lg-10 -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container -->
+        </section>
     </body>
 </html>
