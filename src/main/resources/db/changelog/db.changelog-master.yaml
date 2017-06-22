@@ -33,3 +33,134 @@ databaseChangeLog:
               - column:
                   name: username
                   type: varchar(255)
+
+  - changeSet:
+      id: 2
+      author: adrian
+      preconditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            schemaName: public
+            tableName: sorting_network
+        not:
+          tableExists:
+            schemaName: public
+            tableName: comparator
+      changes:
+        - createTable:
+            tableName: sorting_network
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number_of_wires
+                  type: integer
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: comparator
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: top_wire_number
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: bottom_wire_number
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sorting_network_id
+                  type: integer
+        - addForeignKeyConstraint:
+            baseColumnNames: sorting_network_id
+            baseTableName: comparator
+            constraintName: fk_sorting_network
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: id
+            referencedTableName: sorting_network
+
+  - changeSet:
+      id: 3
+      author: adrian
+      preconditions:
+        onFail: MARK_RAN
+        columnExists:
+          tableName: sorting_network
+          columnName: user_id
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: user_id
+                  type: integer
+            tableName: sorting_network
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: sorting_network
+            constraintName: fk_sorting_network_to_user_id
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: id
+            referencedTableName: user
+
+  - changeSet:
+      id: 4
+      author: adrian
+      preconditions:
+          onFail: MARK_RAN
+          sqlCheck:
+            sql: SELECT COUNT() FROM user
+            expectedResult: 0
+      changes:
+        - sql:
+            sql: INSERT INTO user (username, password, role) VALUES ('adrian', '$2a$10$DvIuo83A/QaU1NgWaj7fwuBTMLZRwlXm3YAqStuVuaWYhu8evM.1e', 'USER')
+
+  - changeSet:
+      id: 5
+      author: adrian
+      preconditions:
+          onFail: MARK_RAN
+          sqlCheck:
+            sql: SELECT COUNT() FROM sorting_network
+            expectedResult: 0
+      changes:
+        - sql:
+            sql: INSERT INTO sorting_network (number_of_wires, user_id) VALUES (4, 7)
+
+  - changeSet:
+      id: 6
+      author: adrian
+      preconditions:
+          onFail: MARK_RAN
+          sqlCheck:
+            sql: SELECT COUNT() FROM sorting_network
+            expectedResult: 0
+      changes:
+        - sql:
+            sql: INSERT INTO comparator (top_wire_number, bottom_wire_number, sorting_network_id) VALUES (1, 2, 7)
+        - sql:
+            sql: INSERT INTO comparator (top_wire_number, bottom_wire_number, sorting_network_id) VALUES (0, 1, 7)
+        - sql:
+            sql: INSERT INTO comparator (top_wire_number, bottom_wire_number, sorting_network_id) VALUES (2, 3, 7)
+        - sql:
+            sql: INSERT INTO comparator (top_wire_number, bottom_wire_number, sorting_network_id) VALUES (1, 2, 7)
+        - sql:
+            sql: INSERT INTO comparator (top_wire_number, bottom_wire_number, sorting_network_id) VALUES (0, 1, 7)
+        - sql:
+            sql: INSERT INTO comparator (top_wire_number, bottom_wire_number, sorting_network_id) VALUES (2, 3, 7)

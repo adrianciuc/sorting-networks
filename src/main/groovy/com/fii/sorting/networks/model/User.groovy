@@ -13,10 +13,10 @@ class User {
     @Id
     @GeneratedValue
     Integer id
-    @Column(name = "username")
+    @Column(name = 'username')
     String userName
-    @Column(name = "password")
+    @Column(name = 'password')
     String password
-    @Column(name = "role")
+    @Column(name = 'role')
     String role
 }

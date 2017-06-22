@@ -20,6 +20,17 @@
     <!-- Custom CSS -->
     <link href="../../css/productPresentation.css" rel="stylesheet">
 
+    <!-- JQuery -->
+    <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+
+    <!-- P5 JS -->
+    <script type="text/javascript" src="../../js/p5.min.js"></script>
+
+    <!-- Custom JS -->
+    <script type="text/javascript" src="../../js/productPresentation.js"></script>
+    <script type="text/javascript" src="../../js/service.js"></script>
+    <script type="text/javascript" src="../../js/sortingNetworkService.js"></script>
+
 </head>
     <body>
 
@@ -52,16 +63,16 @@
         <section id="top-content" class="top-content bg-primary">
             <div class="container">
                 <div class="row text-center">
-                    <div class="col-lg-10 col-lg-offset-1">
-                        <div class="row">
-                            <h2>Nr. 1</h2>
-                        </div>
-                        <div class="row">
-                            <h2>Nr. 2</h2>
-                        </div>
-                        <div class="row">
-                            <h2>Nr. 3</h2>
-                        </div>
+                    <div id="top-list" class="col-lg-10 col-lg-offset-1">
+                        <%--<div id="first-one" class="row">--%>
+                            <%--<h2>Nr. 1</h2>--%>
+                        <%--</div>--%>
+                        <%--<div class="row">--%>
+                            <%--<h2>Nr. 2</h2>--%>
+                        <%--</div>--%>
+                        <%--<div class="row">--%>
+                            <%--<h2>Nr. 3</h2>--%>
+                        <%--</div>--%>
                         <!-- /.row (nested) -->
                     </div>
                     <!-- /.col-lg-10 -->
