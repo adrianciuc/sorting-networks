@@ -1,15 +1,8 @@
-var sortingNetworkElement = function(p) {
-
-    p.setup = function () {
-        p.createCanvas(600, 400);
-        p.background(255, 0, 200);
-    };
-};
-
 var renderOneNetwork = function(network, index) {
     var sorting_network_container_name = "sorting-network-top-number-" + index;
     $("#top-list").append("<div id=\"" + sorting_network_container_name + "\" class=\"row\"></div></div>");
-    new p5(sortingNetworkElement, document.getElementById(sorting_network_container_name));
+    sortingNetworkToRender = network;
+    new p5(sortingNetworkP5Canvas, document.getElementById(sorting_network_container_name));
 };
 
 var renderTopOfSortingNetworks = function(networks) {
@@ -19,6 +12,7 @@ var renderTopOfSortingNetworks = function(networks) {
 
 var addTopOfSortingNetworks = function() {
     console.log("Fetching server for sorting networks");
+    // TODO: Use getTop here instead of getAll in order to have top of sorting networks
     SortingNetworkService.GetAll(renderTopOfSortingNetworks);
 };
 
