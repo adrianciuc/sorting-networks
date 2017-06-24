@@ -4,10 +4,12 @@
 var sortingNetworkToRender = null;
 
 var drawSortingNetwork = function(p, sortingNetwork) {
-    var scaleLength = 20 + sortingNetwork.comparators.length * 25 + sortingNetwork.comparators.length * 5;
+    var comparators = [];
+    sortingNetwork.parallelComparators.forEach(function (value, index) {comparators = comparators.concat(value.comparators)});
+    var scaleLength = 20 + comparators.length * 25 + comparators.length * 5;
     var scaledHeight = 20 + sortingNetwork.numberOfWires * 25 + sortingNetwork.numberOfWires * 5;
     var canvasLength = scaleLength < 600 ? 600 : scaleLength;
-    var canvasLength = canvasLength > 975 ? 975 : canvasLength;
+    canvasLength = canvasLength > 975 ? 975 : canvasLength;
     var canvasHeight = scaledHeight < 400 ? 400 : scaledHeight;
     p.createCanvas(canvasLength, canvasHeight);
     p.background('#152738');
@@ -20,11 +22,11 @@ var drawSortingNetwork = function(p, sortingNetwork) {
         var y2 = y1;
         p.line(x1, y1, x2, y2);
     }
-    for (i = 0; i < sortingNetwork.comparators.length; i++) {
-        var x1 = 40 + ((canvasLength - 60)/sortingNetwork.comparators.length) * i;
-        var y1 = 10 + (canvasHeight/sortingNetwork.numberOfWires) * (sortingNetwork.comparators[i].topWireNumber);
+    for (i = 0; i < comparators.length; i++) {
+        var x1 = 40 + ((canvasLength - 60)/comparators.length) * i;
+        var y1 = 10 + (canvasHeight/sortingNetwork.numberOfWires) * (comparators[i].topWireNumber);
         var x2 = x1;
-        var y2 = 10 + (canvasHeight/sortingNetwork.numberOfWires) * (sortingNetwork.comparators[i].bottomWireNumber);
+        var y2 = 10 + (canvasHeight/sortingNetwork.numberOfWires) * (comparators[i].bottomWireNumber);
         p.line(x1, y1, x2, y2);
         p.fill('#fae');
         p.stroke('#fae');

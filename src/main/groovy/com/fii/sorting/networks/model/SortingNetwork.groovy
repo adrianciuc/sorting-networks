@@ -20,5 +20,5 @@ class SortingNetwork {
     @Column(name = 'number_of_wires')
     Integer numberOfWires;
     @OneToMany(cascade = ALL, mappedBy = 'sortingNetwork')
-    List<Comparator> comparators
+    List<ParallelComparators> parallelComparators
 }

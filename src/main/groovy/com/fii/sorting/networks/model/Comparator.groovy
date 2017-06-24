@@ -1,13 +1,6 @@
 package com.fii.sorting.networks.model
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
-import javax.persistence.Table
-
+import javax.persistence.*
 
 @Entity
 @Table(name = "comparator")
@@ -20,6 +13,6 @@ class Comparator {
     @Column(name = 'bottom_wire_number')
     Integer bottomWireNumber
     @ManyToOne
-    @JoinColumn(name="sorting_network_id", nullable=false)
-    SortingNetwork sortingNetwork
+    @JoinColumn(name="parallel_comparators_id", nullable=false)
+    ParallelComparators parallelComparators
 }
