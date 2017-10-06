@@ -35,6 +35,7 @@
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
+    <link href="../../css/main.css" rel="stylesheet">
     <link href="../../css/productPresentation.css" rel="stylesheet">
 
     <!-- JQuery -->
@@ -59,7 +60,7 @@
                 <h3>Try to sort it out</h3>
 
                 <br>
-                <a href="#about" class="btn btn-dark btn-lg">Login</a>
+                <a href="/login" class="btn btn-dark btn-lg">Login</a>
                 <a href="#about" class="btn btn-dark btn-lg">Register</a>
             </div>
         </header>

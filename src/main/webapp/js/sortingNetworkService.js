@@ -1,7 +1,10 @@
 SortingNetworkService = function () {
     self = {};
 
-    self.url = "http://localhost:8080/api/sorting-networks";
+    self.url = window.location.protocol + "//"
+        + window.location.hostname + ":"
+        + window.location.port
+        + "/api/sorting-networks";
 
     self.GetAll = function (func) {
         Service.Get(this.url).done(function (data) {
