@@ -61,7 +61,7 @@
 
                 <br>
                 <a href="/login" class="btn btn-dark btn-lg">Login</a>
-                <a href="#about" class="btn btn-dark btn-lg">Register</a>
+                <a href="/register" class="btn btn-dark btn-lg">Register</a>
             </div>
         </header>
 

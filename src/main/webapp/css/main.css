@@ -88,3 +88,7 @@ hr.small {
 .service-item {
     margin-bottom: 30px;
 }
+
+.maximus {
+    max-width: 400px
+}

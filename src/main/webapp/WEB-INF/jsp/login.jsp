@@ -36,7 +36,7 @@
         <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
     </head>
     <body>
-    <!-- Game title login and register area -->
+    <!-- Game title and login form area -->
     <header id="top" class="header">
         <div class="text-vertical-center">
             <h1>Sorting networks game</h1>
@@ -47,7 +47,7 @@
                 <form action="/login" method="post" class="form-horizontal">
                     <div class="form-group">
                         <div class="col-sm-offset-1 col-sm-10">
-                            <input type="text" id="email" name="email" placeholder="Enter email" class="form-control" required>
+                            <input type="email" id="email" name="email" placeholder="Enter email" class="form-control" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -72,8 +72,6 @@
                     </div>
                 </form>
             </div>
-            <%--<a href="/login" class="btn btn-dark btn-lg">Login</a>--%>
-            <%--<a href="#about" class="btn btn-dark btn-lg">Register</a>--%>
         </div>
     </header>
     </body>
