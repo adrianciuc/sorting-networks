@@ -32,9 +32,7 @@
         <link href="../../css/main.css" rel="stylesheet">
 
         <!-- JQuery -->
-        <script type="text/javascript" src="../../js/jquery.js"></script>
-
-        <script type="application/javascript" src="../../js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
 
         <%-- Validator for bootstrap form --%>
         <script type="text/javascript" src="../../js/validator.js"></script>
@@ -69,8 +67,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-sm-10">
+                            <div class="col-sm-offset-1 col-sm-10">
                                 <button type="submit" class="btn btn-dark btn-lg">Register</button>
+                                <a href="/login" class="btn btn-dark btn-lg">I have an account</a>
                             </div>
                         </div>
                     </form>

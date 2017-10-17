@@ -34,6 +34,9 @@
 
         <!-- JQuery -->
         <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+
+        <%-- Validator for bootstrap form --%>
+        <script type="text/javascript" src="../../js/validator.js"></script>
     </head>
     <body>
     <!-- Game title and login form area -->
@@ -44,10 +47,11 @@
 
             <br>
             <div class="container maximus">
-                <form action="/login" method="post" class="form-horizontal">
+                <form role="form" action="/login" method="post" data-toggle="validator" class="form-horizontal">
                     <div class="form-group">
                         <div class="col-sm-offset-1 col-sm-10">
-                            <input type="email" id="email" name="email" placeholder="Enter email" class="form-control" required>
+                            <input type="email" id="email" name="email" placeholder="Enter email" class="form-control" data-error="Invalid email" required>
+                            <div class="help-block with-errors"></div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -66,8 +70,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-10">
-                            <button type="submit" class="btn btn-dark btn-lg">Submit</button>
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <button type="submit" class="btn btn-dark btn-lg">Login</button>
+                            <a href="/register" class="btn btn-dark btn-lg">Create account</a>
                         </div>
                     </div>
                 </form>
