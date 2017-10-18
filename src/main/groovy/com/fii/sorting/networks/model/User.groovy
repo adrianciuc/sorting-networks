@@ -13,10 +13,14 @@ class User {
     @Id
     @GeneratedValue
     Integer id
-    @Column(name = 'username')
-    String userName
-    @Column(name = 'password')
+    @Column(name = 'email', nullable = false)
+    String email
+    @Column(name = 'password', nullable = false)
     String password
-    @Column(name = 'role')
+    @Column(name = 'role', nullable = false)
     String role
+    @Column(name = 'first_name', nullable = false)
+    String firstName
+    @Column(name = 'last_name', nullable = false)
+    String lastName
 }

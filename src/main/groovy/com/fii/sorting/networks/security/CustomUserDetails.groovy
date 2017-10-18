@@ -8,6 +8,8 @@ class CustomUserDetails extends User {
 
 
     Integer userId
+    String firstName
+    String lastName
 
      CustomUserDetails(String username, String password, Integer userId,
                              Collection<? extends GrantedAuthority> authorities) {
@@ -15,11 +17,13 @@ class CustomUserDetails extends User {
         this.userId = userId
     }
 
-     CustomUserDetails(String username, String password, Integer userId, boolean enabled,
-                             boolean accountNonExpired,
+     CustomUserDetails(String username, String password, Integer userId, String firstName, String lastName,
+                             boolean enabled, boolean accountNonExpired,
                              boolean credentialsNonExpired, boolean accountNonLocked,
                              Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities)
-        this.userId = userId
+         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities)
+         this.userId = userId
+         this.firstName = firstName
+         this.lastName = lastName
     }
 }

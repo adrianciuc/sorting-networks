@@ -50,6 +50,18 @@
                     <form role="form" action="/register" method="post" data-toggle="validator" class="form-horizontal">
                         <div class="form-group">
                             <div class="col-sm-offset-1 col-sm-10">
+                                <input type="text" id="firstName" name="firstName" placeholder="Enter first name" class="form-control" data-error="Mandatory field" required>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-sm-10">
+                                <input type="text" id="lastName" name="lastName" placeholder="Enter last name" class="form-control" data-error="Mandatory field" required>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-sm-10">
                                 <input type="email" id="email" name="email" placeholder="Enter email" class="form-control" data-error="Invalid email" required>
                                 <div class="help-block with-errors"></div>
                             </div>

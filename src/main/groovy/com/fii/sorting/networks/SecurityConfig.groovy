@@ -1,12 +1,9 @@
 package com.fii.sorting.networks
 
+import com.fii.sorting.networks.repository.JpaPersistentTokenRepository
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.MessageSource
-import org.springframework.context.annotation.Bean
 import org.springframework.context.support.StaticMessageSource
 import org.springframework.security.access.vote.AffirmativeBased
-import org.springframework.security.authentication.AuthenticationTrustResolver
-import org.springframework.security.authentication.AuthenticationTrustResolverImpl
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -15,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor
 
 @EnableWebSecurity
@@ -26,6 +22,9 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private DaoAuthenticationProvider authenticationProvider
+
+    @Autowired
+    private JpaPersistentTokenRepository persistentTokenRepository
 
     @Override
     void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -55,11 +54,13 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/enter")
-                .usernameParameter("ssoId")
+                .usernameParameter("email")
                 .passwordParameter("password")
                 .and()
                 .rememberMe()
-                .rememberMeParameter("remember-me")
+                .rememberMeParameter("remember")
+                .tokenRepository(persistentTokenRepository)
+                .tokenValiditySeconds(86400)
                 .and()
                 .csrf()
                 .and()
