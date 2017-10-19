@@ -69,6 +69,7 @@
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                     <div class="form-group">
                         <div class="col-sm-offset-1 col-sm-10">
                             <button type="submit" class="btn btn-dark btn-lg">Login</button>
