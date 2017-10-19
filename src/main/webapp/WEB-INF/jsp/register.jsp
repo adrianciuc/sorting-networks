@@ -74,10 +74,11 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-1 col-sm-10">
-                                <input type="password" data-match="#password" data-match-error="Not same password as above" id="retype-password" name="retype-password" placeholder="Retype password" class="form-control" required>
+                                <input type="password" data-match="#password" data-match-error="Not same password as above" id="repeatedPassword" name="repeatedPassword" placeholder="Retype password" class="form-control" required>
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                         <div class="form-group">
                             <div class="col-sm-offset-1 col-sm-10">
                                 <button type="submit" class="btn btn-dark btn-lg">Register</button>

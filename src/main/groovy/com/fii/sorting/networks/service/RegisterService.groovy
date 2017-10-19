@@ -1,0 +1,28 @@
+package com.fii.sorting.networks.service
+
+import com.fii.sorting.networks.beans.UserBean
+import com.fii.sorting.networks.model.User
+import com.fii.sorting.networks.repository.UserRepository
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.stereotype.Service
+
+@Service
+class RegisterService {
+
+    @Autowired
+    UserRepository userRepository
+
+    @Autowired
+    private PasswordEncoder encoder
+
+    void registerNewUser(UserBean userBean) {
+        userRepository.save(new User(
+                email: userBean.email,
+                firstName: userBean.firstName,
+                lastName: userBean.lastName,
+                password: encoder.encode(userBean.password),
+                role: 'USER'
+        ))
+    }
+}
