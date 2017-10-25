@@ -1,6 +1,7 @@
 package com.fii.sorting.networks
 
 import com.fii.sorting.networks.repository.JpaPersistentTokenRepository
+import com.fii.sorting.networks.security.AuthenticationSuccessHandler
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.support.StaticMessageSource
 import org.springframework.security.access.vote.AffirmativeBased
@@ -26,6 +27,9 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JpaPersistentTokenRepository persistentTokenRepository
 
+    @Autowired
+    private AuthenticationSuccessHandler authenticationSuccessHandler
+
     @Override
     void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService)
@@ -44,16 +48,16 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/admin", "/admin/**")
-                .access("hasRole('ADM')")
+                .access("hasRole('ADMIN')")
                 .and()
                 .authorizeRequests()
                 .antMatchers("/enter")
-                .access("hasRole('USER') or hasRole('ADM')")
+                .access("hasRole('USER') or hasRole('ADMIN')")
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/enter")
+                .successHandler(authenticationSuccessHandler)
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .and()

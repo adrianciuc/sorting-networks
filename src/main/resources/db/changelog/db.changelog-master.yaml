@@ -521,3 +521,27 @@ databaseChangeLog:
       changes:
         - sql:
             sql: UPDATE user SET password='$2a$10$Jl27Mzq.Z8./ItRKOuqd2OZpQiV20LB8niF4JNPVj/xZZ3ixFL.T6' WHERE email='adrian.ciucanel@outlook.com'
+
+  - changeSet:
+      id: 14
+      author: adrian
+      preconditions:
+          onFail: MARK_RAN
+          sqlCheck:
+            sql: SELECT COUNT() FROM user WHERE role='ADMIN'
+            expectedResult: 0
+      changes:
+        - sql:
+            sql: INSERT INTO user (email, first_name, last_name, password, role) VALUES ('admin@sng.com', 'admin', 'admin', '$2a$10$D.TMVpAn9od7KqC0EWNCfuNFmYzERTQu2qBTolsZbEQSzLcowRa/W', 'ADMIN')
+
+  - changeSet:
+      id: 15
+      author: adrian
+      precondition:
+        onFail: MARK_RAN
+        sqlCheck:
+          sql: SELECT COUNT() FROM users where email='adrian'
+          expectedResult: 1
+      changes:
+        - sql:
+            sql: UPDATE user SET password='$2a$10$UOIBHiTI6nklOhPil9LXq.xWKJY9qwtRtJbhVExTltac73sPcuSZm' WHERE email='adrian.ciucanel@outlook.com'
