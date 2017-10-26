@@ -51,8 +51,6 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .access("hasRole('ADMIN')")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/enter")
-                .access("hasRole('USER') or hasRole('ADMIN')")
                 .and()
                 .formLogin()
                 .loginPage("/login")
