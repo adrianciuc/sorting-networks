@@ -13,10 +13,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET
 class ProfileController {
 
     @RequestMapping(method = GET, path = '/profile')
-    String getProfilePage(Model model, @AuthenticationPrincipal User user) {
-        CustomUserDetails customUserDetails = (CustomUserDetails) user
-        model.addAttribute('firstName', customUserDetails.firstName)
-        model.addAttribute('lastName', customUserDetails.lastName)
+    String getProfilePage(Model model, @AuthenticationPrincipal CustomUserDetails user) {
+        model.addAttribute('firstName', user.firstName)
+        model.addAttribute('lastName', user.lastName)
         'profile'
     }
 }

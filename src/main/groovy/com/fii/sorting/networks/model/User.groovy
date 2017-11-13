@@ -1,10 +1,14 @@
 package com.fii.sorting.networks.model
 
+import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.OneToMany
 import javax.persistence.Table
+
+import static javax.persistence.CascadeType.ALL
 
 
 @Entity
@@ -23,4 +27,6 @@ class User {
     String firstName
     @Column(name = 'last_name', nullable = false)
     String lastName
+    @OneToMany(cascade = ALL, mappedBy = 'user')
+    List<SortingNetwork> sortingNetworks
 }

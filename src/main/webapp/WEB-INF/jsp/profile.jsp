@@ -47,8 +47,8 @@
     <script type="text/javascript" src="../../js/p5.min.js"></script>
 
     <!-- Custom JS -->
+    <script type="text/javascript" src="../../js/navbar.js"></script>
     <script type="text/javascript" src="../../js/profile.js"></script>
-    <script type="text/javascript" src="../../js/productPresentation.js"></script>
     <script type="text/javascript" src="../../js/service.js"></script>
     <script type="text/javascript" src="../../js/sortingNetworkService.js"></script>
     <script type="text/javascript" src="../../js/sortingNetworkP5Canvas.js"></script>
@@ -99,7 +99,7 @@
 <section id="top-content" class="top-content bg-primary">
     <div class="container">
         <div class="row text-center">
-            <div id="top-list" class="col-lg-10 col-lg-offset-1">
+            <div id="user-sn-list" class="col-lg-10 col-lg-offset-1">
                 <!-- /.row (nested) -->
             </div>
             <!-- /.col-lg-10 -->

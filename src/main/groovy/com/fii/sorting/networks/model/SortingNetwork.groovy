@@ -5,6 +5,7 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import javax.persistence.Table
 
@@ -21,4 +22,7 @@ class SortingNetwork {
     Integer numberOfWires;
     @OneToMany(cascade = ALL, mappedBy = 'sortingNetwork')
     List<ParallelComparators> parallelComparators
+    @ManyToOne
+    @JoinColumn(name = 'user_id', nullable = false)
+    User user
 }
