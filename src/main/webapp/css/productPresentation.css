@@ -1,0 +1,38 @@
+.top-number {
+    color: #98d398;
+    font-size: 125%;
+    margin-left: 2%;
+}
+
+.top-username {
+    color: #98d398;
+    font-size: 110%;
+}
+
+.network-username {
+    text-align: left;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.center-pills {
+    display: flex;
+    justify-content: center;
+}
+
+.nav-pills > li > a {
+    color: white;
+}
+
+.nav-pills > li > a:hover {
+    color: black;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    color:black;
+    background-color:white;
+}
+
+.row {
+    margin-top: 30px;
+}

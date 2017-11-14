@@ -40,6 +40,7 @@
 
     <!-- JQuery -->
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
 
     <!-- P5 JS -->
     <script type="text/javascript" src="../../js/p5.min.js"></script>
@@ -81,6 +82,12 @@
         <!-- Top sorting networks -->
         <section id="top-content" class="top-content bg-primary">
             <div class="container">
+                <ul class="nav nav-pills center-pills">
+                    <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
+                    <li><a data-toggle="pill" href="#menu1">Menu 1</a></li>
+                    <li><a data-toggle="pill" href="#menu2">Menu 2</a></li>
+                    <li><a data-toggle="pill" href="#menu3">Menu 3</a></li>
+                </ul>
                 <div class="row text-center">
                     <div id="top-list" class="col-lg-10 col-lg-offset-1">
                         <!-- /.row (nested) -->

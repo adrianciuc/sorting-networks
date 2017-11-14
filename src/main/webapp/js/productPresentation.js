@@ -1,6 +1,19 @@
+var renderNetworkUserName = function(network, index, sorting_network_container_name) {
+    var userName = network.user.firstName + " " + network.user.lastName;
+    $("#top-list")
+        .append(
+            "<div id=\"" + sorting_network_container_name + "\" class=\"row\">" +
+                "<div class=\"network-username col-lg-offset-2\">" +
+                    "<span class=\"top-number\">#" + (index + 1) + "</span>" +
+                    " by: " +
+                    "<span class=\"top-username\">" + userName + "</span>" +
+                "</div>" +
+            "</div>");
+};
+
 var renderOneNetwork = function(network, index) {
     var sorting_network_container_name = "sorting-network-top-number-" + index;
-    $("#top-list").append("<div id=\"" + sorting_network_container_name + "\" class=\"row\"></div></div>");
+    renderNetworkUserName(network, index, sorting_network_container_name);
     sortingNetworkToRender = network;
     new p5(sortingNetworkP5Canvas, document.getElementById(sorting_network_container_name));
 };
@@ -22,4 +35,3 @@ $(document).ready(addTopOfSortingNetworks);
 function setup() {
     noCanvas();
 }
-

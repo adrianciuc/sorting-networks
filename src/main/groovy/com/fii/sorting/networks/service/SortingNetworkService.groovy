@@ -3,6 +3,7 @@ package com.fii.sorting.networks.service
 import com.fii.sorting.networks.beans.ComparatorBean
 import com.fii.sorting.networks.beans.ParallelComparatorsBean
 import com.fii.sorting.networks.beans.SortingNetworkBean
+import com.fii.sorting.networks.beans.UserBean
 import com.fii.sorting.networks.model.ParallelComparators
 import com.fii.sorting.networks.model.User
 import com.fii.sorting.networks.repository.SortingNetworkRepository
@@ -27,6 +28,11 @@ class SortingNetworkService {
     List<SortingNetworkBean> getAll() {
         sortingNetworkRepository.findAll().collect {
             new SortingNetworkBean(
+                    user: new UserBean(
+                            email: it.user.email,
+                            firstName: it.user.firstName,
+                            lastName: it.user.lastName
+                    ),
                     numberOfWires: it.numberOfWires,
                     parallelComparators: it.parallelComparators.collect {
                         new ParallelComparatorsBean(

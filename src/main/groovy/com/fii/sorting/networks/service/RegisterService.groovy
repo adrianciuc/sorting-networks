@@ -21,6 +21,7 @@ class RegisterService {
         if (!userRepository.findByEmail(userBean.email).isEmpty()) {
             throw new UserAlreadyExistsException(userBean.email)
         }
+        // TODO: Check if password and repeated password matches
         userRepository.save(new User(
                 email: userBean.email,
                 firstName: userBean.firstName,
