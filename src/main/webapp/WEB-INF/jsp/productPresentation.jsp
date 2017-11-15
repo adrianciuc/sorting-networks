@@ -82,14 +82,10 @@
         <!-- Top sorting networks -->
         <section id="top-content" class="top-content bg-primary">
             <div class="container">
-                <ul class="nav nav-pills center-pills">
-                    <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
-                    <li><a data-toggle="pill" href="#menu1">Menu 1</a></li>
-                    <li><a data-toggle="pill" href="#menu2">Menu 2</a></li>
-                    <li><a data-toggle="pill" href="#menu3">Menu 3</a></li>
+                <ul id="top-networks-pills-list" class="nav nav-pills center-pills">
                 </ul>
                 <div class="row text-center">
-                    <div id="top-list" class="col-lg-10 col-lg-offset-1">
+                    <div id="top-list" class="tab-content col-lg-10 col-lg-offset-1">
                         <!-- /.row (nested) -->
                     </div>
                     <!-- /.col-lg-10 -->
