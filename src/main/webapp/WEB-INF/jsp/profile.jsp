@@ -48,6 +48,7 @@
 
     <!-- Custom JS -->
     <script type="text/javascript" src="../../js/navbar.js"></script>
+    <script type="text/javascript" src="../../js/top-sorting-networks.js"></script>
     <script type="text/javascript" src="../../js/profile.js"></script>
     <script type="text/javascript" src="../../js/service.js"></script>
     <script type="text/javascript" src="../../js/sortingNetworkService.js"></script>
@@ -70,8 +71,8 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#user-sn-list" data-toggle="tab" aria-expanded="true">My networks</a></li>
-                <li><a href="#top-sn-list" data-toggle="tab" aria-expanded="false">Top</a></li>
+                <li class="active"><a href="#user-sn-list-container" data-toggle="tab" aria-expanded="true">My networks</a></li>
+                <li><a href="#top-sn-list-container" data-toggle="tab" aria-expanded="false">Top</a></li>
                 <li><a href="#new-sn-network" data-toggle="tab" aria-expanded="false">New Network</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -95,17 +96,24 @@
     </div><!-- /.container -->
 </nav><!-- /.navbar -->
 
-<!-- Top sorting networks -->
+<!-- Navigation tab content: my networks, top and new network -->
 <section id="top-content" class="top-content bg-primary">
     <div class="container">
         <div class="row text-center">
             <div class="tab-content">
-                <div id="user-sn-list" class="tab-pane fade in active col-lg-10 col-lg-offset-1">
-                    <!-- /.row (nested) -->
+                <div id="user-sn-list-container" class="tab-pane fade in active col-lg-10 col-lg-offset-1">
+                    <ul id="user-networks-pills-list" class="nav nav-pills center-pills">
+                    </ul>
+                    <div id="user-sn-list">
+                        <!-- /.row (nested) -->
+                    </div>
                 </div>
                 <!-- /.col-lg-10 -->
-                <div id="top-sn-list" class="tab-pane fade in col-lg-10 col-lg-offset-1">
-                    <h2>Sorting network top...</h2>
+                <div id="top-sn-list-container" class="tab-pane fade in col-lg-10 col-lg-offset-1">
+                    <ul id="top-sn-pills-list" class="nav nav-pills center-pills">
+                    </ul>
+                    <div id="top-sn-list" class="tab-content">
+                    </div>
                 </div>
                 <div id="new-sn-network" class="tab-pane fade in col-lg-10 col-lg-offset-1">
                     <h2>Create new sorting network</h2>

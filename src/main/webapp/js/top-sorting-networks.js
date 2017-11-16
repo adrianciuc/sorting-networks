@@ -11,7 +11,7 @@ var renderNetworkUserName = function(network, index, sorting_network_container_n
             "</div>");
 };
 
-var renderOneNetwork = function(network, index, numberOfWires, networksGroupContainerId) {
+var renderOneTopNetwork = function(network, index, numberOfWires, networksGroupContainerId) {
     var sorting_network_container_name = "sorting-network-top-number-" + numberOfWires + index;
     renderNetworkUserName(network, index, sorting_network_container_name, networksGroupContainerId);
     sortingNetworkToRender = network;
@@ -19,9 +19,9 @@ var renderOneNetwork = function(network, index, numberOfWires, networksGroupCont
 };
 
 var renderBootstrapPillAndContainerForGroupOfNetworks = function(networksGroupContainerId, numberOfWires) {
-    $("#top-networks-pills-list")
+    $("#top-sn-pills-list")
         .append("<li><a data-toggle=\"pill\" href=\"#"+ networksGroupContainerId +"\">" + numberOfWires + " wires" + "</a></li>");
-    $("#top-list")
+    $("#top-sn-list")
         .append("<div id=\"" + networksGroupContainerId + "\" class=\"tab-pane fade\"></div>");
 };
 
@@ -47,7 +47,7 @@ var renderGroupOfNetworks = function(numberOfWires, networks) {
     renderBootstrapPillAndContainerForGroupOfNetworks(networksGroupContainerId, numberOfWires);
     sortNetworksByNumberOfComparators(networks);
     networks.forEach(function (network, index) {
-        renderOneNetwork(network, index, numberOfWires, networksGroupContainerId);
+        renderOneTopNetwork(network, index, numberOfWires, networksGroupContainerId);
     });
 };
 
@@ -61,8 +61,8 @@ var splitByNumberOfWires = function(networks) {
 };
 
 var makeFirstGroupActive = function() {
-    $("#top-list").children(":first").addClass("in active");
-    $("#top-networks-pills-list").children(":first").addClass("active");
+    $("#top-sn-list").children(":first").addClass("in active");
+    $("#top-sn-pills-list").children(":first").addClass("active");
 };
 
 var renderTopOfSortingNetworks = function(networks) {

@@ -46,7 +46,7 @@
     <script type="text/javascript" src="../../js/p5.min.js"></script>
 
     <!-- Custom JS -->
-    <script type="text/javascript" src="../../js/productPresentation.js"></script>
+    <script type="text/javascript" src="../../js/top-sorting-networks.js"></script>
     <script type="text/javascript" src="../../js/service.js"></script>
     <script type="text/javascript" src="../../js/sortingNetworkService.js"></script>
     <script type="text/javascript" src="../../js/sortingNetworkP5Canvas.js"></script>
@@ -82,10 +82,10 @@
         <!-- Top sorting networks -->
         <section id="top-content" class="top-content bg-primary">
             <div class="container">
-                <ul id="top-networks-pills-list" class="nav nav-pills center-pills">
+                <ul id="top-sn-pills-list" class="nav nav-pills center-pills">
                 </ul>
                 <div class="row text-center">
-                    <div id="top-list" class="tab-content col-lg-10 col-lg-offset-1">
+                    <div id="top-sn-list" class="tab-content col-lg-10 col-lg-offset-1">
                         <!-- /.row (nested) -->
                     </div>
                     <!-- /.col-lg-10 -->

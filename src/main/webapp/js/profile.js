@@ -1,4 +1,4 @@
-var renderOneNetwork = function(network, index) {
+var renderOneUserNetwork = function(network, index) {
     var sorting_network_container_name = "sorting-network-top-number-" + index;
     $("#user-sn-list").append("<div id=\"" + sorting_network_container_name + "\" class=\"row\"></div></div>");
     sortingNetworkToRender = network;
@@ -7,7 +7,7 @@ var renderOneNetwork = function(network, index) {
 
 var renderLoggedInUserSortingNetworks = function(networks) {
     console.log("Rendering all sorting networks for current logged in user");
-    networks.forEach(renderOneNetwork)
+    networks.forEach(renderOneUserNetwork)
 };
 
 var getUserSortingNetworks = function() {
