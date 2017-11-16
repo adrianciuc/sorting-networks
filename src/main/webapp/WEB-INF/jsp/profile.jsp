@@ -70,9 +70,9 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">My networks</a></li>
-                <li><a href="#about">Top</a></li>
-                <li><a href="#contact">New Network</a></li>
+                <li class="active"><a href="#user-sn-list" data-toggle="tab" aria-expanded="true">My networks</a></li>
+                <li><a href="#top-sn-list" data-toggle="tab" aria-expanded="false">Top</a></li>
+                <li><a href="#new-sn-network" data-toggle="tab" aria-expanded="false">New Network</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -99,10 +99,18 @@
 <section id="top-content" class="top-content bg-primary">
     <div class="container">
         <div class="row text-center">
-            <div id="user-sn-list" class="col-lg-10 col-lg-offset-1">
-                <!-- /.row (nested) -->
+            <div class="tab-content">
+                <div id="user-sn-list" class="tab-pane fade in active col-lg-10 col-lg-offset-1">
+                    <!-- /.row (nested) -->
+                </div>
+                <!-- /.col-lg-10 -->
+                <div id="top-sn-list" class="tab-pane fade in col-lg-10 col-lg-offset-1">
+                    <h2>Sorting network top...</h2>
+                </div>
+                <div id="new-sn-network" class="tab-pane fade in col-lg-10 col-lg-offset-1">
+                    <h2>Create new sorting network</h2>
+                </div>
             </div>
-            <!-- /.col-lg-10 -->
         </div>
         <!-- /.row -->
     </div>
