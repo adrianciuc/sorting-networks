@@ -102,10 +102,9 @@
         <div class="row text-center">
             <div class="tab-content">
                 <div id="user-sn-list-container" class="tab-pane fade in active col-lg-10 col-lg-offset-1">
-                    <ul id="user-networks-pills-list" class="nav nav-pills center-pills">
+                    <ul id="user-sn-pills-list" class="nav nav-pills center-pills">
                     </ul>
-                    <div id="user-sn-list">
-                        <!-- /.row (nested) -->
+                    <div id="user-sn-list" class="tab-content">
                     </div>
                 </div>
                 <!-- /.col-lg-10 -->

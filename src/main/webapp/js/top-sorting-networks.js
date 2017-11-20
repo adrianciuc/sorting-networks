@@ -1,27 +1,31 @@
-var renderNetworkUserName = function(network, index, sorting_network_container_name, networksGroupContainerId) {
-    var userName = network.user.firstName + " " + network.user.lastName;
-    $("#" + networksGroupContainerId)
-        .append(
-            "<div id=\"" + sorting_network_container_name + "\" class=\"row\">" +
-                "<div class=\"network-username col-lg-offset-2\">" +
-                    "<span class=\"top-number\">#" + (index + 1) + "</span>" +
-                    " by: " +
-                    "<span class=\"top-username\">" + userName + "</span>" +
-                "</div>" +
-            "</div>");
+var renderNetworkUserName = function(network, index, renderSNOwner) {
+    return renderSNOwner ?
+        "<div class=\"network-username col-lg-offset-2\">" +
+            "<span class=\"top-number\">#" + (index + 1) + "</span>" +
+            " by: " +
+            "<span class=\"top-username\">" + network.user.firstName + " " + network.user.lastName + "</span>" +
+        "</div>"
+        :
+        "";
 };
 
-var renderOneTopNetwork = function(network, index, numberOfWires, networksGroupContainerId) {
+var renderNetworkContainer = function(network, index, sorting_network_container_name, networksGroupContainerId, renderSNOwner) {
+    $("#" + networksGroupContainerId)
+        .append(
+            "<div id=\"" + sorting_network_container_name + "\" class=\"row\">" + renderNetworkUserName(network, index, renderSNOwner) +"</div>");
+};
+
+var renderOneTopNetwork = function(network, index, numberOfWires, networksGroupContainerId, renderSNOwner) {
     var sorting_network_container_name = "sorting-network-top-number-" + numberOfWires + index;
-    renderNetworkUserName(network, index, sorting_network_container_name, networksGroupContainerId);
+    renderNetworkContainer(network, index, sorting_network_container_name, networksGroupContainerId, renderSNOwner);
     sortingNetworkToRender = network;
     new p5(sortingNetworkP5Canvas, document.getElementById(sorting_network_container_name));
 };
 
-var renderBootstrapPillAndContainerForGroupOfNetworks = function(networksGroupContainerId, numberOfWires) {
-    $("#top-sn-pills-list")
+var renderBootstrapPillAndContainerForGroupOfNetworks = function(networksGroupContainerId, numberOfWires, snList, snPillList) {
+    $(snPillList)
         .append("<li><a data-toggle=\"pill\" href=\"#"+ networksGroupContainerId +"\">" + numberOfWires + " wires" + "</a></li>");
-    $("#top-sn-list")
+    $(snList)
         .append("<div id=\"" + networksGroupContainerId + "\" class=\"tab-pane fade\"></div>");
 };
 
@@ -41,13 +45,13 @@ var sortNetworksByNumberOfComparators = function(networks) {
     });
 };
 
-var renderGroupOfNetworks = function(numberOfWires, networks) {
+var renderGroupOfNetworks = function(numberOfWires, networks, snList, snPillList, renderSNOwner) {
     console.log("Rendering networks with "+ numberOfWires +" wires");
-    var networksGroupContainerId = numberOfWires + "_wire_group";
-    renderBootstrapPillAndContainerForGroupOfNetworks(networksGroupContainerId, numberOfWires);
+    var networksGroupContainerId = numberOfWires + "_wire_group" + snList.substr(1);
+    renderBootstrapPillAndContainerForGroupOfNetworks(networksGroupContainerId, numberOfWires, snList, snPillList);
     sortNetworksByNumberOfComparators(networks);
     networks.forEach(function (network, index) {
-        renderOneTopNetwork(network, index, numberOfWires, networksGroupContainerId);
+        renderOneTopNetwork(network, index, numberOfWires, networksGroupContainerId, renderSNOwner);
     });
 };
 
@@ -60,27 +64,19 @@ var splitByNumberOfWires = function(networks) {
     return split;
 };
 
-var makeFirstGroupActive = function() {
-    $("#top-sn-list").children(":first").addClass("in active");
-    $("#top-sn-pills-list").children(":first").addClass("active");
+var makeFirstGroupActive = function(snList, snPillList) {
+    $(snList).children(":first").addClass("in active");
+    $(snPillList).children(":first").addClass("active");
 };
 
-var renderTopOfSortingNetworks = function(networks) {
+var renderTopOfSortingNetworks = function(networks, snList, snPillList, renderSNOwner) {
     console.log("Rendering top of sorting networks");
     var split = splitByNumberOfWires(networks);
     for (var numberOfWires in split) {
-        renderGroupOfNetworks(numberOfWires, split[numberOfWires]);
+        renderGroupOfNetworks(numberOfWires, split[numberOfWires], snList, snPillList, renderSNOwner);
     }
-    makeFirstGroupActive();
+    makeFirstGroupActive(snList, snPillList);
 };
-
-var addTopOfSortingNetworks = function() {
-    console.log("Fetching server for sorting networks");
-    //TODO: Use Get All Finished Networks instead of getting all networks
-    SortingNetworkService.GetAll(renderTopOfSortingNetworks);
-};
-
-$(document).ready(addTopOfSortingNetworks);
 
 // This function specify that P5 library should not create a default canvas
 function setup() {
