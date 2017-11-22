@@ -55,7 +55,7 @@ var drawSortingNetwork = function(p, sortingNetwork) {
     var canvasLength = scaleLength < 600 ? 600 : scaleLength;
     canvasLength = canvasLength > 975 ? 975 : canvasLength;
     var canvasHeight = scaledHeight < 400 ? 400 : scaledHeight;
-    p.createCanvas(canvasLength, canvasHeight);
+    p.createCanvas(canvasLength, canvasHeight).id(sortingNetwork.id + "-" + Math.floor((Math.random() * 1000000)));
     p.background('#152738');
     p.stroke(126);
     p.strokeWeight(5);
@@ -67,12 +67,12 @@ var drawSortingNetwork = function(p, sortingNetwork) {
         p.line(x1, y1, x2, y2);
     }
     var verticalLineIndex = 0;
-    var paralelGroupSpaceSeparator;
+    var parallelGroupSpaceSeparator;
     for (i = 0; i < sortingNetwork.parallelComparators.length; i++) {
-        paralelGroupSpaceSeparator = 40;
+        parallelGroupSpaceSeparator = 40;
         var representation = parallelComparatorRepresentation(sortingNetwork.parallelComparators[i]);
         for (var j = 0; j < representation.length; j++) {
-            var x1 = 60 + ((canvasLength - 60 - paralelGroupSpaceSeparator * sortingNetwork.parallelComparators.length) / numberOfCanvasVerticalLines) * verticalLineIndex + paralelGroupSpaceSeparator * i;
+            var x1 = 60 + ((canvasLength - 60 - parallelGroupSpaceSeparator * sortingNetwork.parallelComparators.length) / numberOfCanvasVerticalLines) * verticalLineIndex + parallelGroupSpaceSeparator * i;
             var x2 = x1;
             verticalLineIndex++;
             for (k = 0; k < representation[j].length; k++) {

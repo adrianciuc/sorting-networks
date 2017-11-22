@@ -28,6 +28,7 @@ class SortingNetworkService {
     List<SortingNetworkBean> getAll() {
         sortingNetworkRepository.findAll().collect {
             new SortingNetworkBean(
+                    id: it.id,
                     user: new UserBean(
                             email: it.user.email,
                             firstName: it.user.firstName,
@@ -55,6 +56,7 @@ class SortingNetworkService {
                 .sortingNetworks
                 .collect {
                     new SortingNetworkBean(
+                            id: it.id,
                             numberOfWires: it.numberOfWires,
                             parallelComparators: it.parallelComparators.collect {
                                 new ParallelComparatorsBean(
