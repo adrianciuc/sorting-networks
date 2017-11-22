@@ -48,7 +48,7 @@
 
     <!-- Custom JS -->
     <script type="text/javascript" src="../../js/navbar.js"></script>
-    <script type="text/javascript" src="../../js/top-sorting-networks.js"></script>
+    <script type="text/javascript" src="../../js/topSortingNetworksService.js"></script>
     <script type="text/javascript" src="../../js/profile.js"></script>
     <script type="text/javascript" src="../../js/service.js"></script>
     <script type="text/javascript" src="../../js/sortingNetworkService.js"></script>

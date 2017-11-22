@@ -46,7 +46,7 @@
     <script type="text/javascript" src="../../js/p5.min.js"></script>
 
     <!-- Custom JS -->
-    <script type="text/javascript" src="../../js/top-sorting-networks.js"></script>
+    <script type="text/javascript" src="../../js/topSortingNetworksService.js"></script>
     <script type="text/javascript" src="../../js/productPresentation.js"></script>
     <script type="text/javascript" src="../../js/service.js"></script>
     <script type="text/javascript" src="../../js/sortingNetworkService.js"></script>

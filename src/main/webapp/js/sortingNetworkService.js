@@ -7,15 +7,15 @@ SortingNetworkService = function () {
 
     self.getAllCurrentUserUrl = self.getAllUrl + "/current";
 
-    self.GetAll = function (func, snList, snPillList, renderSNOwner) {
+    self.GetAll = function (func) {
         Service.Get(this.getAllUrl).done(function (data) {
-            func(data, snList, snPillList, renderSNOwner);
+            func(data);
         });
     };
 
-    self.GetAllForLoggedInUser = function(func, snList, snPillList, renderSNOwner) {
+    self.GetAllForLoggedInUser = function(func) {
         Service.Get(this.getAllCurrentUserUrl).done(function(data) {
-            func(data, snList, snPillList, renderSNOwner);
+            func(data);
         })
     };
 
