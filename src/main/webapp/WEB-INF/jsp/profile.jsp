@@ -38,6 +38,7 @@
     <link href="../../css/profile.css" rel="stylesheet">
     <link href="../../css/main.css" rel="stylesheet">
     <link href="../../css/productPresentation.css" rel="stylesheet">
+    <link href="../../css/sortingNetworkContextMenu.css" rel="stylesheet">
 
     <!-- JQuery -->
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
@@ -48,6 +49,7 @@
 
     <!-- Custom JS -->
     <script type="text/javascript" src="../../js/navbar.js"></script>
+    <script type="text/javascript" src="../../js/sortingNetworkContextMenu.js"></script>
     <script type="text/javascript" src="../../js/topSortingNetworksService.js"></script>
     <script type="text/javascript" src="../../js/profile.js"></script>
     <script type="text/javascript" src="../../js/service.js"></script>

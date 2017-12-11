@@ -1,10 +1,11 @@
-TopSortingNetworkService = function(sortingNetworkListContainerId, pillsContainerId, renderSortingNetworkRankAndOwner) {
+TopSortingNetworkService = function(sortingNetworkListContainerId, pillsContainerId, renderSortingNetworkRankAndOwner, renderEndedAction) {
 
     var tsnSelf = {};
 
     tsnSelf.sortingNetworkListContainerId = sortingNetworkListContainerId;
     tsnSelf.pillsContainerId = pillsContainerId;
     tsnSelf.renderSortingNetworkRankAndOwner = renderSortingNetworkRankAndOwner;
+    tsnSelf.renderEndedAction = renderEndedAction;
 
     tsnSelf.renderNetworkUserName = function (network, index) {
         return renderSortingNetworkRankAndOwner ?
@@ -17,10 +18,25 @@ TopSortingNetworkService = function(sortingNetworkListContainerId, pillsContaine
             "";
     };
 
+    tsnSelf.renderContextMenuPlaceholder = function() {
+        return "<div class= \"row context-menu\">" +
+            "       <ul class=\"nav navbar-nav\">" +
+            "           <li class=\"dropdown disabled \">" +
+            "               <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">" +
+            "                   <div class=\"context-menu-placeholder\"></div>" + "" +
+            "               </a>" +
+            "           </li>" +
+            "       </ul>" +
+            "   </div>\n";
+    };
+
     tsnSelf.renderNetworkContainer = function (network, index, sorting_network_container_name, networksGroupContainerId) {
         $("#" + networksGroupContainerId)
             .append(
-                "<div id=\"" + sorting_network_container_name + "\" class=\"row\">" + tsnSelf.renderNetworkUserName(network, index) + "</div>");
+                "<div id=\"" + sorting_network_container_name + "\" class=\"row\">"
+                + tsnSelf.renderNetworkUserName(network, index)
+                + tsnSelf.renderContextMenuPlaceholder()
+                + "</div>");
     };
 
     tsnSelf.renderOneTopNetwork = function (network, index, numberOfWires, networksGroupContainerId) {
@@ -84,6 +100,9 @@ TopSortingNetworkService = function(sortingNetworkListContainerId, pillsContaine
             tsnSelf.renderGroupOfNetworks(numberOfWires, split[numberOfWires]);
         }
         tsnSelf.makeFirstGroupActive();
+        if (tsnSelf.renderEndedAction) {
+            renderEndedAction(networks, tsnSelf.sortingNetworkListContainerId);
+        }
     };
 
     return tsnSelf;

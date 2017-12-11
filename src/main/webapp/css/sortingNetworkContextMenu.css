@@ -1,0 +1,15 @@
+.dots:after {
+    content: '\2807';
+    font-size: 1.5em;
+    color: #bbc4d3
+}
+
+.context-menu-placeholder:after {
+    content: '\2807';
+    font-size: 1.5em;
+    color: #152738
+}
+
+.context-menu {
+    padding-left: 20%;
+}
