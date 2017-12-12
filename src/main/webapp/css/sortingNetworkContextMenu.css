@@ -1,7 +1,16 @@
+.dots {
+    padding-left: 0.37em;
+    padding-right: 0.1em;
+}
+
 .dots:after {
     content: '\2807';
     font-size: 1.5em;
     color: #bbc4d3
+}
+
+.circle-menu {
+    border-radius: 50%;
 }
 
 .context-menu-placeholder:after {

@@ -1,7 +1,7 @@
 var contextMenuBegining = "<div class= \"row context-menu\" id=\"";
 var contextMenuEnding = "\"><ul\" class=\"nav navbar-nav\">\n" +
     "                <li class=\"dropdown\">\n" +
-    "                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">\n" +
+    "                    <a class=\"dropdown-toggle circle-menu\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">\n" +
     "                        <!-- The Profile picture inserted via div class below, with shaping provided by Bootstrap -->\n" +
     "                        <div class=\"dots\"></div>\n" +
     "                    </a>\n" +

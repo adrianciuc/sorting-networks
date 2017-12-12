@@ -1,10 +1,11 @@
-TopSortingNetworkService = function(sortingNetworkListContainerId, pillsContainerId, renderSortingNetworkRankAndOwner, renderEndedAction) {
+TopSortingNetworkService = function(sortingNetworkListContainerId, pillsContainerId, renderSortingNetworkRankAndOwner, renderEndedAction, renderContextMenuPlaceholderToggle) {
 
     var tsnSelf = {};
 
     tsnSelf.sortingNetworkListContainerId = sortingNetworkListContainerId;
     tsnSelf.pillsContainerId = pillsContainerId;
     tsnSelf.renderSortingNetworkRankAndOwner = renderSortingNetworkRankAndOwner;
+    tsnSelf.renderContextMenuPlaceholderToggle = renderContextMenuPlaceholderToggle;
     tsnSelf.renderEndedAction = renderEndedAction;
 
     tsnSelf.renderNetworkUserName = function (network, index) {
@@ -19,7 +20,8 @@ TopSortingNetworkService = function(sortingNetworkListContainerId, pillsContaine
     };
 
     tsnSelf.renderContextMenuPlaceholder = function() {
-        return "<div class= \"row context-menu\">" +
+        return tsnSelf.renderContextMenuPlaceholderToggle ?
+            "<div class= \"row context-menu\">" +
             "       <ul class=\"nav navbar-nav\">" +
             "           <li class=\"dropdown disabled \">" +
             "               <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">" +
@@ -27,7 +29,9 @@ TopSortingNetworkService = function(sortingNetworkListContainerId, pillsContaine
             "               </a>" +
             "           </li>" +
             "       </ul>" +
-            "   </div>\n";
+            "   </div>\n"
+            :
+            "";
     };
 
     tsnSelf.renderNetworkContainer = function (network, index, sorting_network_container_name, networksGroupContainerId) {
