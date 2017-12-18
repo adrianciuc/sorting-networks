@@ -8,6 +8,16 @@ Service = function () {
         });
     };
 
+    self.Delete = function (url, csrfTokenName, csrfTokenValue) {
+        var headers = {};
+        headers[csrfTokenName] = csrfTokenValue;
+        return $.ajax({
+            type: "DELETE",
+            url: url,
+            headers: headers
+        });
+    };
+
     self.Post = function (url, data) {
         return $.ajax({
             type: "POST",

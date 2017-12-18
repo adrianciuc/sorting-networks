@@ -5,6 +5,7 @@ import com.fii.sorting.networks.beans.ParallelComparatorsBean
 import com.fii.sorting.networks.beans.SortingNetworkBean
 import com.fii.sorting.networks.beans.UserBean
 import com.fii.sorting.networks.model.ParallelComparators
+import com.fii.sorting.networks.model.SortingNetwork
 import com.fii.sorting.networks.model.User
 import com.fii.sorting.networks.repository.SortingNetworkRepository
 import com.fii.sorting.networks.repository.UserRepository
@@ -70,5 +71,14 @@ class SortingNetworkService {
                             }
                     )
                 }
+    }
+
+    void deleteSortingNetwork(CustomUserDetails user, Integer snId) {
+        if (user) {
+            SortingNetwork sn = sortingNetworkRepository.findOne(snId)
+            if (sn?.user?.email?.equalsIgnoreCase(user?.username)) {
+                sortingNetworkRepository.delete(snId)
+            }
+        }
     }
 }

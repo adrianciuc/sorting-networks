@@ -5,13 +5,13 @@ import com.fii.sorting.networks.security.CustomUserDetails
 import com.fii.sorting.networks.service.SortingNetworkService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.bind.annotation.*
 
+import static org.springframework.http.HttpStatus.OK
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE
 import static org.springframework.web.bind.annotation.RequestMethod.GET
 
-@Controller
+@RestController
 @RequestMapping('/api/sorting-networks')
 class SortingNetworkController {
 
@@ -23,14 +23,19 @@ class SortingNetworkController {
     }
 
     @RequestMapping(method = GET)
-    @ResponseBody
     List<SortingNetworkBean> getAll() {
         this.sortingNetworkService.all
     }
 
     @RequestMapping(method = GET, path = "/current")
-    @ResponseBody
     List<SortingNetworkBean> getAllForUser(@AuthenticationPrincipal CustomUserDetails user) {
         sortingNetworkService.getAllForUser(user)
+    }
+
+    @RequestMapping(method = DELETE, path = "/{snId}")
+    @ResponseStatus(value = OK)
+    void deleteSortingNetwork(@AuthenticationPrincipal CustomUserDetails user,
+                                 @PathVariable("snId") Integer snId) {
+        sortingNetworkService.deleteSortingNetwork(user, snId)
     }
 }

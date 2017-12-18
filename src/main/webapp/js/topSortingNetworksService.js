@@ -9,7 +9,7 @@ TopSortingNetworkService = function(sortingNetworkListContainerId, pillsContaine
     tsnSelf.renderEndedAction = renderEndedAction;
 
     tsnSelf.renderNetworkUserName = function (network, index) {
-        return renderSortingNetworkRankAndOwner ?
+        return tsnSelf.renderSortingNetworkRankAndOwner ?
             "<div class=\"network-username col-lg-offset-2\">" +
             "<span class=\"top-number\">#" + (index + 1) + "</span>" +
             " by: " +
@@ -44,7 +44,7 @@ TopSortingNetworkService = function(sortingNetworkListContainerId, pillsContaine
     };
 
     tsnSelf.renderOneTopNetwork = function (network, index, numberOfWires, networksGroupContainerId) {
-        var sorting_network_container_name = "sorting-network-top-number-" + numberOfWires + index;
+        var sorting_network_container_name = "sorting-network-top-number-" + numberOfWires + index + networksGroupContainerId;
         tsnSelf.renderNetworkContainer(network, index, sorting_network_container_name, networksGroupContainerId);
         sortingNetworkToRender = network;
         new p5(sortingNetworkP5Canvas, document.getElementById(sorting_network_container_name));

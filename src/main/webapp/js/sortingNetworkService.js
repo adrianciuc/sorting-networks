@@ -5,6 +5,8 @@ SortingNetworkService = function () {
 
     self.getAllUrl = self.baseUrl + "/api/sorting-networks";
 
+    self.deleteSnUrl = self.getAllUrl + "/";
+
     self.getAllCurrentUserUrl = self.getAllUrl + "/current";
 
     self.GetAll = function (func) {
@@ -17,6 +19,12 @@ SortingNetworkService = function () {
         Service.Get(this.getAllCurrentUserUrl).done(function(data) {
             func(data);
         })
+    };
+
+    self.DeleteSortingNetwork = function(snId, csrfTokenName, csrfTokenValue, func) {
+        Service.Delete(self.deleteSnUrl + snId, csrfTokenName, csrfTokenValue).done(function() {
+            func();
+        });
     };
 
     return self;

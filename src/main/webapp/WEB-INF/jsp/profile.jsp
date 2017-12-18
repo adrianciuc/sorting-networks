@@ -9,6 +9,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
 
     <!-- All this just to include a favicon image, OMG -->
     <link rel="apple-touch-icon" sizes="57x57" href="../../apple-icon-57x57.png">
@@ -58,7 +59,8 @@
 
 </head>
 <body>
-<div class="page">
+<div class="page bg-pri
+mary">
 <!-- Navigation bar -->
 <nav id="header" class="navbar navbar-fixed-top">
     <div id="header-container" class="container navbar-container">
@@ -87,7 +89,7 @@
                         <li><a href="#">Profile</a></li>
                         <li>
                             <form id="logout-form-id" class="col-sm-offset-1" action="/logout" method="post">
-                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                <input id="csrf-input" type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                             </form>
                             <a href="#" onclick="$('#logout-form-id').submit()">Log out</a>
                         </li>

@@ -11,6 +11,29 @@ var addTopOfSortingNetworks = function() {
     SortingNetworkService.GetAll(topSortingNetworkService.renderTopOfSortingNetworks);
 };
 
+var fadeOutEmptyFadeIn = function() {
+    $(this).empty();
+    $(this).fadeIn();
+};
+
+var refreshUserSortingNetwork = function() {
+    $("#user-sn-pills-list").fadeOut(300, fadeOutEmptyFadeIn);
+    $("#user-sn-list").fadeOut(500, function() {
+        $(this).empty();
+        addUserSortingNetworks();
+        $(this).fadeIn();
+    });
+};
+
+var refreshTopOfSortingNetwork = function() {
+    $("#top-sn-pills-list").fadeOut(300, fadeOutEmptyFadeIn);
+    $("#top-sn-list").fadeOut(500, function() {
+        $(this).empty();
+        addTopOfSortingNetworks();
+        $(this).fadeIn();
+    });
+};
+
 $(document).ready(function(){
     initNavBar();
     addTopOfSortingNetworks();

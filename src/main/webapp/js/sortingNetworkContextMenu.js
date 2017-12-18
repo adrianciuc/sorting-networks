@@ -7,12 +7,7 @@ var contextMenuEnding = "\"><ul\" class=\"nav navbar-nav\">\n" +
     "                    </a>\n" +
     "                    <ul class=\"dropdown-menu\" role=\"menu\">\n" +
     "                        <li><a href=\"#\">Edit</a></li>\n" +
-    "                        <li>\n" +
-    "                            <form id=\"logout-form-id\" class=\"col-sm-offset-1\" action=\"/logout\" method=\"post\">\n" +
-    "                                <input type=\"hidden\" name=\"${_csrf.parameterName}\" value=\"${_csrf.token}\"/>\n" +
-    "                            </form>\n" +
-    "                            <a href=\"#\" onclick=\"$('#logout-form-id').submit()\">Delete</a>\n" +
-    "                        </li>\n" +
+    "                        <li><a id=\"delete-sn\" href=\"#\">Delete</a></li>\n" +
     "                    </ul>\n" +
     "                </li>\n" +
     "            </ul></div>";
@@ -29,11 +24,26 @@ var getCanvasId = function (e) {
     }
 };
 
+var removeRenderedSortingNetwork = function() {
+    refreshUserSortingNetwork();
+    refreshTopOfSortingNetwork();
+};
+
+var deleteSn = function(event, snId) {
+    event.preventDefault();
+    console.log("deleting sorting network with id " + snId);
+    var csrfTokenName = $("meta[name='_csrf_header']").attr("content");
+    var csrfTokenValue = $("#csrf-input").attr("value");
+    SortingNetworkService.DeleteSortingNetwork(snId, csrfTokenName, csrfTokenValue, removeRenderedSortingNetwork);
+};
+
 var renderContextMenu = function(e) {
     var canvasId = getCanvasId(e.target);
+    var snId = canvasId.substr(0, canvasId.indexOf('-'));
     if ($("#" + canvasId + 1).length === 0) {
         $("#" + canvasId).prev().toggle();
         $("#" + canvasId).before(contextMenuBegining + canvasId + 1 + contextMenuEnding);
+        $("#delete-sn").attr("onclick", "deleteSn(event, " + snId + ")");
     }
 };
 

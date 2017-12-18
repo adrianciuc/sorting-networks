@@ -43,6 +43,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/")
                 .permitAll()
+                .antMatchers("/api/sorting-networks", "/api/sorting-networks/**")
+                .permitAll()
                 .antMatchers("/profile", "/profile/**")
                 .access("hasRole('USER')")
                 .and()
