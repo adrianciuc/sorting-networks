@@ -53,6 +53,7 @@
     <script type="text/javascript" src="../../js/sortingNetworkContextMenu.js"></script>
     <script type="text/javascript" src="../../js/topSortingNetworksService.js"></script>
     <script type="text/javascript" src="../../js/profile.js"></script>
+    <script type="text/javascript" src="../../js/createSortingNetwork.js"></script>
     <script type="text/javascript" src="../../js/service.js"></script>
     <script type="text/javascript" src="../../js/sortingNetworkService.js"></script>
     <script type="text/javascript" src="../../js/sortingNetworkP5Canvas.js"></script>
@@ -77,7 +78,7 @@ mary">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#user-sn-list-container" data-toggle="tab" aria-expanded="true">My networks</a></li>
                 <li><a href="#top-sn-list-container" data-toggle="tab" aria-expanded="false">Top</a></li>
-                <li><a href="#new-sn-network" data-toggle="tab" aria-expanded="false">New Network</a></li>
+                <li><a id="new-sn-network-tab" href="#new-sn-network" data-toggle="tab" aria-expanded="false">New Network</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -119,7 +120,23 @@ mary">
                     </div>
                 </div>
                 <div id="new-sn-network" class="tab-pane fade in col-lg-10 col-lg-offset-1">
-                    <h2>Create new sorting network</h2>
+                    <div class="container maximus">
+                        <form role="form" method="post" data-toggle="validator" class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-sm-offset-1 col-sm-10">
+                                    <input type="number" id="sn-wire-number" name="sn-wire-number"
+                                           placeholder="Number of wires" class="form-control"
+                                           data-error="Invalid number" min="2" max="1000" required>
+                                    <div id="sn-wire-number-error" class="help-block with-errors"></div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-1 col-sm-10">
+                                        <button id="create-network-button" type="submit" class="btn btn-dark">Create Network</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
