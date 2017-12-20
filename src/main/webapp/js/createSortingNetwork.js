@@ -19,7 +19,9 @@ var renderNetworkCanvas = function() {
         "user": null,
         "parallelComparators": []
     };
+    editableCanvasForSortingNetwork = true;
     new p5(sortingNetworkP5Canvas, document.getElementById(snContainerId));
+    editableCanvasForSortingNetwork = false;
     element.fadeIn();
 };
 

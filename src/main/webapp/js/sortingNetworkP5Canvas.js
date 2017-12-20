@@ -2,6 +2,7 @@
  TODO: Find other solution to pass the sorting network object to the canvas (current solution is a dirty hack)
  */
 var sortingNetworkToRender = null;
+var editableCanvasForSortingNetwork = false;
 
 var getTotalNumberOfComparatorsFromSortingNetwork = function (sortingNetwork) {
     var totalNumberOfComparators = 0;
@@ -59,12 +60,14 @@ var drawSortingNetwork = function(p, sortingNetwork) {
     p.background('#152738');
     p.stroke(126);
     p.strokeWeight(5);
+    p.wires = [];
     for (var i = 0; i < sortingNetwork.numberOfWires; i++) {
         var x1 = 20;
         var y1 = 10 + (canvasHeight/sortingNetwork.numberOfWires) * i;
         var x2 = canvasLength - 20;
         var y2 = y1;
         p.line(x1, y1, x2, y2);
+        p.wires.push(y1);
     }
     var verticalLineIndex = 0;
     var parallelGroupSpaceSeparator;
@@ -89,7 +92,26 @@ var drawSortingNetwork = function(p, sortingNetwork) {
     }
 };
 
+function getTheClosestYOfAWire(p, coordinates, previousMouseY, drawLine) {
+    var closestDistance = Number.MAX_VALUE;
+    var closest;
+    for (var i = 0; i < coordinates.length; i++) {
+        var distance = Math.abs(coordinates[i] - p.mouseY);
+        if (closestDistance > distance && (coordinates[i] !== previousMouseY || !drawLine)) {
+            closest = coordinates[i];
+            closestDistance = distance;
+        }
+    }
+    return closest;
+}
+
 var sortingNetworkP5Canvas = function(p) {
+
+    var mouseX;
+    var mouseY;
+    var previousMouseX;
+    var previousMouseY;
+    var drawLine = false;
 
     p.setup = function () {
         if (sortingNetworkToRender === null) {
@@ -98,4 +120,36 @@ var sortingNetworkP5Canvas = function(p) {
             drawSortingNetwork(p, sortingNetworkToRender)
         }
     };
+
+    if (editableCanvasForSortingNetwork) {
+        p.draw = function () {
+            if (mouseX && mouseY) {
+                if (previousMouseX && previousMouseY && drawLine) {
+                    p.stroke(126);
+                    p.strokeWeight(5);
+                    p.line(previousMouseX, previousMouseY, previousMouseX, mouseY);
+                    p.fill('#fae');
+                    p.stroke('#fae');
+                    p.ellipse(previousMouseX, previousMouseY, 7, 7);
+                    p.ellipse(previousMouseX, mouseY, 7, 7);
+                    drawLine = false;
+                } else {
+                    drawLine = true;
+                    p.fill('#fae');
+                    p.stroke('#fae');
+                    p.ellipse(mouseX, mouseY, 7, 7);
+                }
+                previousMouseX = mouseX;
+                previousMouseY = mouseY;
+                mouseX = undefined;
+                mouseY = undefined;
+            }
+        };
+
+        p.mousePressed = function () {
+            mouseX = p.mouseX;
+            mouseY = getTheClosestYOfAWire(p, p.wires, previousMouseY, drawLine);
+
+        };
+    }
 };
