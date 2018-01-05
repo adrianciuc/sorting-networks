@@ -92,7 +92,7 @@ var drawSortingNetwork = function(p, sortingNetwork) {
     }
 };
 
-function getTheClosestYOfAWire(p, coordinates, previousMouseY, drawLine) {
+var getTheClosestYOfAWire = function(p, coordinates, previousMouseY, drawLine) {
     var closestDistance = Number.MAX_VALUE;
     var closest;
     for (var i = 0; i < coordinates.length; i++) {
@@ -103,7 +103,40 @@ function getTheClosestYOfAWire(p, coordinates, previousMouseY, drawLine) {
         }
     }
     return closest;
-}
+};
+
+var comparatorCanBeAddedInParallelComparatorsGroup = function (comparator, parallelComparators) {
+    var index = parallelComparators.comparators.findIndex(function(element) {
+        var elementIsAboveComparator = ((element.topWireNumber < comparator.topWireNumber)
+            && (element.bottomWireNumber < comparator.topWireNumber));
+        var elementIsBelowComparator = ((element.topWireNumber > comparator.bottomWireNumber)
+            && (element.bottomWireNumber > comparator.bottomWireNumber));
+        return !(elementIsAboveComparator || elementIsBelowComparator);
+    });
+    return index === -1;
+};
+
+var addComparatorToSortingNetwork = function(p, sortingNetwork, y1, y2) {
+    var comparator = {};
+    comparator.topWireNumber = p.wires.indexOf(y1);
+    comparator.bottomWireNumber = p.wires.indexOf(y2);
+    var lastParallelComparator;
+    if (sortingNetwork.parallelComparators.length !== 0) {
+        for (var i = sortingNetwork.parallelComparators.length - 1; i >= 0; i--) {
+            if (comparatorCanBeAddedInParallelComparatorsGroup(comparator,
+                    sortingNetwork.parallelComparators[i])) {
+                lastParallelComparator = sortingNetwork.parallelComparators[i]
+            } else {
+                break;
+            }
+        }
+    }
+    lastParallelComparator ?
+        lastParallelComparator.comparators.push(comparator)
+        : sortingNetwork.parallelComparators.push({"comparators": [comparator]});
+
+
+};
 
 var sortingNetworkP5Canvas = function(p) {
 
@@ -132,6 +165,8 @@ var sortingNetworkP5Canvas = function(p) {
                     p.stroke('#fae');
                     p.ellipse(previousMouseX, previousMouseY, 7, 7);
                     p.ellipse(previousMouseX, mouseY, 7, 7);
+                    addComparatorToSortingNetwork(p, sortingNetworkToRender, previousMouseY, mouseY);
+                    console.log(sortingNetworkToRender);
                     drawLine = false;
                 } else {
                     drawLine = true;
