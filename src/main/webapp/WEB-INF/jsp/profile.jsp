@@ -56,6 +56,7 @@
     <script type="text/javascript" src="../../js/createSortingNetwork.js"></script>
     <script type="text/javascript" src="../../js/service.js"></script>
     <script type="text/javascript" src="../../js/sortingNetworkService.js"></script>
+    <script type="text/javascript" src="../../js/sortingNetworkActionButton.js"></script>
     <script type="text/javascript" src="../../js/sortingNetworkP5Canvas.js"></script>
 
 </head>

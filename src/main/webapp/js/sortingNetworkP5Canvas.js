@@ -118,8 +118,8 @@ var comparatorCanBeAddedInParallelComparatorsGroup = function (comparator, paral
 
 var addComparatorToSortingNetwork = function(p, sortingNetwork, y1, y2) {
     var comparator = {};
-    comparator.topWireNumber = p.wires.indexOf(y1);
-    comparator.bottomWireNumber = p.wires.indexOf(y2);
+    comparator.topWireNumber = p.wires.indexOf(Math.min(y1, y2));
+    comparator.bottomWireNumber = p.wires.indexOf(Math.max(y1, y2));
     var lastParallelComparator;
     if (sortingNetwork.parallelComparators.length !== 0) {
         for (var i = sortingNetwork.parallelComparators.length - 1; i >= 0; i--) {
@@ -182,9 +182,10 @@ var sortingNetworkP5Canvas = function(p) {
         };
 
         p.mousePressed = function () {
-            mouseX = p.mouseX;
-            mouseY = getTheClosestYOfAWire(p, p.wires, previousMouseY, drawLine);
-
+            if (p.mouseX >= 0 && p.mouseY >=0) {
+                mouseX = p.mouseX;
+                mouseY = getTheClosestYOfAWire(p, p.wires, previousMouseY, drawLine);
+            }
         };
     }
 };

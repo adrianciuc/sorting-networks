@@ -7,9 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
+import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.OK
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE
-import static org.springframework.web.bind.annotation.RequestMethod.GET
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE
+import static org.springframework.web.bind.annotation.RequestMethod.*
 
 @RestController
 @RequestMapping('/api/sorting-networks')
@@ -37,5 +38,12 @@ class SortingNetworkController {
     void deleteSortingNetwork(@AuthenticationPrincipal CustomUserDetails user,
                                  @PathVariable("snId") Integer snId) {
         sortingNetworkService.deleteSortingNetwork(user, snId)
+    }
+
+    @RequestMapping(method = POST, consumes = APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = CREATED)
+    void saveSortingNetwork(@AuthenticationPrincipal CustomUserDetails user,
+                            @RequestBody SortingNetworkBean sortingNetworkToSave) {
+        sortingNetworkService.saveSortingNetwork(user, sortingNetworkToSave)
     }
 }

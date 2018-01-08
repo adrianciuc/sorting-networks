@@ -12,7 +12,12 @@ var renderNetworkCanvas = function() {
     var numberOfWires = parseInt($("#sn-wire-number").val());
     element.empty();
     var snContainerId = "new-sn-network-container";
-    element.html("<div id=\"" + snContainerId + "\" class=\"row\"></div>");
+    element.html(
+        "<div id=\"create-sn-btn-container\" class=\"row\">" +
+            "<button id=\"save-sn-btn\" type=\"button\" class=\"btn btn-dark\">Save</button>" +
+        "</div>" +
+        "<div id=\"" + snContainerId + "\" class=\"row\">" +
+        "</div>");
     sortingNetworkToRender = {
         "numberOfWires": numberOfWires,
         "id": null,
@@ -22,6 +27,7 @@ var renderNetworkCanvas = function() {
     editableCanvasForSortingNetwork = true;
     new p5(sortingNetworkP5Canvas, document.getElementById(snContainerId));
     editableCanvasForSortingNetwork = false;
+    $("#save-sn-btn").attr("onclick", "saveSortingNetwork(event)")
     element.fadeIn();
 };
 

@@ -18,14 +18,18 @@ Service = function () {
         });
     };
 
-    self.Post = function (url, data) {
+    self.Post = function (url, data, csrfTokenName, csrfTokenValue) {
+        var headers = {};
+        headers[csrfTokenName] = csrfTokenValue;
         return $.ajax({
             type: "POST",
             url: url,
-            data: data,
+            headers: headers,
+            contentType: "application/json",
+            data: JSON.stringify(data),
             error: function (xhr) {
                 debugger;
-                alert(xhr.error().responseText);
+                alert(xhr.responseText);
             }
         });
     };

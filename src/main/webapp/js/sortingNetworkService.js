@@ -27,5 +27,11 @@ SortingNetworkService = function () {
         });
     };
 
+    self.SaveSortingNetwork = function(sn, csrfTokenName, csrfTokenValue, func) {
+        Service.Post(self.getAllUrl, sn, csrfTokenName, csrfTokenValue).done(function() {
+            func();
+        });
+    };
+
     return self;
 }();
