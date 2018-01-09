@@ -3,6 +3,8 @@
  */
 var sortingNetworkToRender = null;
 var editableCanvasForSortingNetwork = false;
+var sortingNetworkInCreationProcess = null;
+var snNeedToBeRedrawn = false;
 
 var getTotalNumberOfComparatorsFromSortingNetwork = function (sortingNetwork) {
     var totalNumberOfComparators = 0;
@@ -61,6 +63,7 @@ var drawSortingNetwork = function(p, sortingNetwork) {
     p.stroke(126);
     p.strokeWeight(5);
     p.wires = [];
+    p.comparators = [];
     for (var i = 0; i < sortingNetwork.numberOfWires; i++) {
         var x1 = 20;
         var y1 = 10 + (canvasHeight/sortingNetwork.numberOfWires) * i;
@@ -87,6 +90,14 @@ var drawSortingNetwork = function(p, sortingNetwork) {
                 p.ellipse(x1 + 0.5, y1, 7, 7);
                 p.ellipse(x2 + 0.5, y2, 7, 7);
                 p.stroke(126);
+                p.comparators.push({
+                    "parallelComparatorIndex": i,
+                    "topWireNumber": representation[j][k].topWireNumber,
+                    "bottomWireNumber": representation[j][k].bottomWireNumber,
+                    "x": x1,
+                    "ytop": y1,
+                    "ybottom": y2
+                });
             }
         }
     }
@@ -134,9 +145,34 @@ var addComparatorToSortingNetwork = function(p, sortingNetwork, y1, y2) {
     lastParallelComparator ?
         lastParallelComparator.comparators.push(comparator)
         : sortingNetwork.parallelComparators.push({"comparators": [comparator]});
-
-
+    snNeedToBeRedrawn = true;
 };
+
+var getComparatorClicked = function(p) {
+    var comparatorClicked = null;
+    var clickAreaError = 2;
+    for (var i = 0; i < p.comparators.length; i++) {
+        var toBeChecked = p.comparators[i];
+        if (toBeChecked.x + clickAreaError >= p.mouseX
+            && toBeChecked.x - clickAreaError <= p.mouseX + 1
+            && toBeChecked.ytop <= p.mouseY
+            && toBeChecked.ybottom >= p.mouseY) {
+            comparatorClicked = toBeChecked;
+        }
+    }
+    return comparatorClicked;
+};
+
+function removeComparatorFromSortingNetwork(comparatorClicked, sortingNetwork) {
+    var pcThatContainsClickedComp = sortingNetwork.parallelComparators[comparatorClicked.parallelComparatorIndex];
+    for (var i = 0; i < pcThatContainsClickedComp.comparators.length; i++) {
+        if (pcThatContainsClickedComp.comparators[i].topWireNumber === comparatorClicked.topWireNumber
+            && pcThatContainsClickedComp.comparators[i].bottomWireNumber === comparatorClicked.bottomWireNumber) {
+            pcThatContainsClickedComp.comparators.splice(i, 1);
+            snNeedToBeRedrawn = true;
+        }
+    }
+}
 
 var sortingNetworkP5Canvas = function(p) {
 
@@ -150,41 +186,61 @@ var sortingNetworkP5Canvas = function(p) {
         if (sortingNetworkToRender === null) {
             p.noCanvas();
         } else {
-            drawSortingNetwork(p, sortingNetworkToRender)
+            if (editableCanvasForSortingNetwork) {
+                sortingNetworkInCreationProcess = sortingNetworkToRender;
+                drawSortingNetwork(p, sortingNetworkInCreationProcess);
+            } else {
+                drawSortingNetwork(p, sortingNetworkToRender);
+            }
+        }
+    };
+
+    p.drawNewComparatorIfNeeded = function() {
+        if (mouseX && mouseY) {
+            if (previousMouseX && previousMouseY && drawLine) {
+                p.stroke(126);
+                p.strokeWeight(5);
+                p.line(previousMouseX, previousMouseY, previousMouseX, mouseY);
+                p.fill('#fae');
+                p.stroke('#fae');
+                p.ellipse(previousMouseX, previousMouseY, 7, 7);
+                p.ellipse(previousMouseX, mouseY, 7, 7);
+                addComparatorToSortingNetwork(p, sortingNetworkInCreationProcess, previousMouseY, mouseY);
+                console.log(sortingNetworkInCreationProcess);
+                drawLine = false;
+            } else {
+                drawLine = true;
+                p.fill('#fae');
+                p.stroke('#fae');
+                p.ellipse(mouseX, mouseY, 7, 7);
+            }
+            previousMouseX = mouseX;
+            previousMouseY = mouseY;
+            mouseX = undefined;
+            mouseY = undefined;
         }
     };
 
     if (editableCanvasForSortingNetwork) {
         p.draw = function () {
-            if (mouseX && mouseY) {
-                if (previousMouseX && previousMouseY && drawLine) {
-                    p.stroke(126);
-                    p.strokeWeight(5);
-                    p.line(previousMouseX, previousMouseY, previousMouseX, mouseY);
-                    p.fill('#fae');
-                    p.stroke('#fae');
-                    p.ellipse(previousMouseX, previousMouseY, 7, 7);
-                    p.ellipse(previousMouseX, mouseY, 7, 7);
-                    addComparatorToSortingNetwork(p, sortingNetworkToRender, previousMouseY, mouseY);
-                    console.log(sortingNetworkToRender);
-                    drawLine = false;
-                } else {
-                    drawLine = true;
-                    p.fill('#fae');
-                    p.stroke('#fae');
-                    p.ellipse(mouseX, mouseY, 7, 7);
-                }
-                previousMouseX = mouseX;
-                previousMouseY = mouseY;
-                mouseX = undefined;
-                mouseY = undefined;
+            if (snNeedToBeRedrawn) {
+                p.background('#152738');
+                drawSortingNetwork(p, sortingNetworkToRender);
+                snNeedToBeRedrawn = false;
             }
+            p.drawNewComparatorIfNeeded();
         };
 
         p.mousePressed = function () {
-            if (p.mouseX >= 0 && p.mouseY >=0) {
+            if (p.mouseButton === p.LEFT && p.mouseX >= 0 && p.mouseY >=0) {
                 mouseX = p.mouseX;
                 mouseY = getTheClosestYOfAWire(p, p.wires, previousMouseY, drawLine);
+            }
+            if (p.mouseButton === p.RIGHT) {
+                var comparatorClicked = getComparatorClicked(p);
+                if (comparatorClicked) {
+                    removeComparatorFromSortingNetwork(comparatorClicked, sortingNetworkInCreationProcess);
+                }
             }
         };
     }

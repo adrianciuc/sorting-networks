@@ -27,7 +27,8 @@ var renderNetworkCanvas = function() {
     editableCanvasForSortingNetwork = true;
     new p5(sortingNetworkP5Canvas, document.getElementById(snContainerId));
     editableCanvasForSortingNetwork = false;
-    $("#save-sn-btn").attr("onclick", "saveSortingNetwork(event)")
+    $("#" + snContainerId + " canvas").attr("oncontextmenu", "return false;");
+    $("#save-sn-btn").attr("onclick", "saveSortingNetwork(event)");
     element.fadeIn();
 };
 
