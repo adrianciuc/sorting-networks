@@ -127,10 +127,7 @@ var comparatorCanBeAddedInParallelComparatorsGroup = function (comparator, paral
     return index === -1;
 };
 
-var addComparatorToSortingNetwork = function(p, sortingNetwork, y1, y2) {
-    var comparator = {};
-    comparator.topWireNumber = p.wires.indexOf(Math.min(y1, y2));
-    comparator.bottomWireNumber = p.wires.indexOf(Math.max(y1, y2));
+var placeComparatorInAppropriateParallelComparatorsGroup = function(sortingNetwork, comparator) {
     var lastParallelComparator;
     if (sortingNetwork.parallelComparators.length !== 0) {
         for (var i = sortingNetwork.parallelComparators.length - 1; i >= 0; i--) {
@@ -145,6 +142,13 @@ var addComparatorToSortingNetwork = function(p, sortingNetwork, y1, y2) {
     lastParallelComparator ?
         lastParallelComparator.comparators.push(comparator)
         : sortingNetwork.parallelComparators.push({"comparators": [comparator]});
+};
+
+var addComparatorToSortingNetwork = function(p, sortingNetwork, y1, y2) {
+    var comparator = {};
+    comparator.topWireNumber = p.wires.indexOf(Math.min(y1, y2));
+    comparator.bottomWireNumber = p.wires.indexOf(Math.max(y1, y2));
+    placeComparatorInAppropriateParallelComparatorsGroup(sortingNetwork, comparator);
     snNeedToBeRedrawn = true;
 };
 
@@ -163,16 +167,36 @@ var getComparatorClicked = function(p) {
     return comparatorClicked;
 };
 
-function removeComparatorFromSortingNetwork(comparatorClicked, sortingNetwork) {
+var removeComparatorFromSortingNetwork = function(comparatorClicked, sortingNetwork) {
     var pcThatContainsClickedComp = sortingNetwork.parallelComparators[comparatorClicked.parallelComparatorIndex];
+    var comparatorRemoved = false;
     for (var i = 0; i < pcThatContainsClickedComp.comparators.length; i++) {
         if (pcThatContainsClickedComp.comparators[i].topWireNumber === comparatorClicked.topWireNumber
             && pcThatContainsClickedComp.comparators[i].bottomWireNumber === comparatorClicked.bottomWireNumber) {
             pcThatContainsClickedComp.comparators.splice(i, 1);
+            if (pcThatContainsClickedComp.comparators.length === 0) {
+                sortingNetwork.parallelComparators.splice(comparatorClicked.parallelComparatorIndex, 1);
+            }
+            comparatorRemoved = true;
             snNeedToBeRedrawn = true;
+            break;
         }
     }
-}
+    if (comparatorRemoved) {
+        var snAfterDeletion = {
+            "numberOfWires": sortingNetworkInCreationProcess.numberOfWires,
+            "id": null,
+            "user" : null,
+            "parallelComparators": []
+        };
+        sortingNetworkInCreationProcess.parallelComparators.forEach(function(pc) {
+            pc.comparators.forEach(function(comp) {
+                placeComparatorInAppropriateParallelComparatorsGroup(snAfterDeletion, comp);
+            });
+        });
+        sortingNetworkInCreationProcess = snAfterDeletion;
+    }
+};
 
 var sortingNetworkP5Canvas = function(p) {
 
@@ -187,7 +211,7 @@ var sortingNetworkP5Canvas = function(p) {
             p.noCanvas();
         } else {
             if (editableCanvasForSortingNetwork) {
-                sortingNetworkInCreationProcess = sortingNetworkToRender;
+                sortingNetworkInCreationProcess = JSON.parse(JSON.stringify(sortingNetworkToRender));
                 drawSortingNetwork(p, sortingNetworkInCreationProcess);
             } else {
                 drawSortingNetwork(p, sortingNetworkToRender);
@@ -225,7 +249,7 @@ var sortingNetworkP5Canvas = function(p) {
         p.draw = function () {
             if (snNeedToBeRedrawn) {
                 p.background('#152738');
-                drawSortingNetwork(p, sortingNetworkToRender);
+                drawSortingNetwork(p, sortingNetworkInCreationProcess);
                 snNeedToBeRedrawn = false;
             }
             p.drawNewComparatorIfNeeded();
