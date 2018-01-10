@@ -5,6 +5,7 @@ var sortingNetworkToRender = null;
 var editableCanvasForSortingNetwork = false;
 var sortingNetworkInCreationProcess = null;
 var snNeedToBeRedrawn = false;
+var sortingNetworkStates = [];
 
 var getTotalNumberOfComparatorsFromSortingNetwork = function (sortingNetwork) {
     var totalNumberOfComparators = 0;
@@ -213,6 +214,7 @@ var sortingNetworkP5Canvas = function(p) {
             if (editableCanvasForSortingNetwork) {
                 sortingNetworkInCreationProcess = JSON.parse(JSON.stringify(sortingNetworkToRender));
                 drawSortingNetwork(p, sortingNetworkInCreationProcess);
+                sortingNetworkStates.push(JSON.parse(JSON.stringify(sortingNetworkInCreationProcess)))
             } else {
                 drawSortingNetwork(p, sortingNetworkToRender);
             }
@@ -251,6 +253,8 @@ var sortingNetworkP5Canvas = function(p) {
                 p.background('#152738');
                 drawSortingNetwork(p, sortingNetworkInCreationProcess);
                 snNeedToBeRedrawn = false;
+                sortingNetworkStates.push(JSON.parse(JSON.stringify(sortingNetworkInCreationProcess)));
+                $("#undo-sn-btn").attr("aria-disabled", "false").prop("disabled", false).removeClass("disabled");
             }
             p.drawNewComparatorIfNeeded();
         };

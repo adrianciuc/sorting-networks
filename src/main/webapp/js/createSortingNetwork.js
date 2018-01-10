@@ -14,7 +14,15 @@ var renderNetworkCanvas = function() {
     var snContainerId = "new-sn-network-container";
     element.html(
         "<div id=\"create-sn-btn-container\" class=\"row\">" +
-            "<button id=\"save-sn-btn\" type=\"button\" class=\"btn btn-dark\">Save</button>" +
+            "<button id=\"undo-sn-btn\" type=\"button\" class=\"btn btn-dark\">" +
+                "<i class=\"fa fa-undo\" aria-hidden=\"true\"></i> Undo" +
+            "</button>" +
+            "<button id=\"redo-sn-btn\" type=\"button\" class=\"btn btn-dark\">" +
+                "<i class=\"fa fa-repeat\" aria-hidden=\"true\"></i> Redo" +
+            "</button>" +
+            "<button id=\"save-sn-btn\" type=\"button\" class=\"btn btn-dark\">" +
+                "<i class=\"fa fa-floppy-o\" aria-hidden=\"true\"></i> Save" +
+            "</button>" +
         "</div>" +
         "<div id=\"" + snContainerId + "\" class=\"row\">" +
         "</div>");
@@ -24,11 +32,14 @@ var renderNetworkCanvas = function() {
         "user": null,
         "parallelComparators": []
     };
+    sortingNetworkStates = [];
     editableCanvasForSortingNetwork = true;
     new p5(sortingNetworkP5Canvas, document.getElementById(snContainerId));
     editableCanvasForSortingNetwork = false;
     $("#" + snContainerId + " canvas").attr("oncontextmenu", "return false;");
     $("#save-sn-btn").attr("onclick", "saveSortingNetwork(event)");
+    $("#undo-sn-btn").attr("onclick", "undoAction(event)").attr("aria-disabled", "true").addClass("disabled").prop("disabled", true);
+    $("#redo-sn-btn").attr("onclick", "redoAction(event)").attr("aria-disabled", "true").addClass("disabled").prop("disabled", true);
     element.fadeIn();
 };
 

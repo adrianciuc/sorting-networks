@@ -58,7 +58,7 @@ TopSortingNetworkService = function(sortingNetworkListContainerId, pillsContaine
     };
 
     tsnSelf.stackAllComparators = function (total, parallelComparators, index) {
-        if (index == 1) {
+        if (index === 1) {
             return total.comparators.length + parallelComparators.comparators.length;
         } else {
             return total + parallelComparators.comparators.length;
@@ -67,8 +67,14 @@ TopSortingNetworkService = function(sortingNetworkListContainerId, pillsContaine
 
     tsnSelf.sortNetworksByNumberOfComparators = function (networks) {
         networks.sort(function (first, second) {
-            var firstNumberOfComparators = first.parallelComparators.reduce(tsnSelf.stackAllComparators);
-            var secondNumberOfComparators = second.parallelComparators.reduce(tsnSelf.stackAllComparators);
+            var firstNumberOfComparators = 0;
+            var secondNumberOfComparators = 0;
+            if (first.parallelComparators.length !== 0) {
+                first.parallelComparators.reduce(tsnSelf.stackAllComparators);
+            }
+            if (second.parallelComparators.length !== 0) {
+                second.parallelComparators.reduce(tsnSelf.stackAllComparators);
+            }
             return secondNumberOfComparators - firstNumberOfComparators;
         });
     };
