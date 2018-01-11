@@ -33,6 +33,7 @@ var renderNetworkCanvas = function() {
         "parallelComparators": []
     };
     sortingNetworkStates = [];
+    sortingNetworkStatesUndone = [];
     editableCanvasForSortingNetwork = true;
     new p5(sortingNetworkP5Canvas, document.getElementById(snContainerId));
     editableCanvasForSortingNetwork = false;

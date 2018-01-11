@@ -6,6 +6,7 @@ var editableCanvasForSortingNetwork = false;
 var sortingNetworkInCreationProcess = null;
 var snNeedToBeRedrawn = false;
 var sortingNetworkStates = [];
+var sortingNetworkStatesUndone = [];
 
 var getTotalNumberOfComparatorsFromSortingNetwork = function (sortingNetwork) {
     var totalNumberOfComparators = 0;
@@ -145,11 +146,24 @@ var placeComparatorInAppropriateParallelComparatorsGroup = function(sortingNetwo
         : sortingNetwork.parallelComparators.push({"comparators": [comparator]});
 };
 
+var preservePreviousSNStatesInUndoArray = function preservePreviousSNStatesInUndoArray() {
+    if (sortingNetworkStatesUndone.length !== 0) {
+        var lastState = JSON.parse(JSON.stringify(sortingNetworkStates[sortingNetworkStates.length - 1]));
+        Array.prototype.push.apply(sortingNetworkStates, sortingNetworkStatesUndone.slice().reverse());
+        sortingNetworkStates.pop();
+        Array.prototype.push.apply(sortingNetworkStates, sortingNetworkStatesUndone);
+        sortingNetworkStates.push(lastState);
+    }
+    sortingNetworkStatesUndone = [];
+    $("#redo-sn-btn").attr("aria-disabled", "true").addClass("disabled").prop("disabled", true);
+};
+
 var addComparatorToSortingNetwork = function(p, sortingNetwork, y1, y2) {
     var comparator = {};
     comparator.topWireNumber = p.wires.indexOf(Math.min(y1, y2));
     comparator.bottomWireNumber = p.wires.indexOf(Math.max(y1, y2));
     placeComparatorInAppropriateParallelComparatorsGroup(sortingNetwork, comparator);
+    preservePreviousSNStatesInUndoArray();
     snNeedToBeRedrawn = true;
 };
 
@@ -196,6 +210,7 @@ var removeComparatorFromSortingNetwork = function(comparatorClicked, sortingNetw
             });
         });
         sortingNetworkInCreationProcess = snAfterDeletion;
+        preservePreviousSNStatesInUndoArray();
     }
 };
 
@@ -254,7 +269,9 @@ var sortingNetworkP5Canvas = function(p) {
                 drawSortingNetwork(p, sortingNetworkInCreationProcess);
                 snNeedToBeRedrawn = false;
                 sortingNetworkStates.push(JSON.parse(JSON.stringify(sortingNetworkInCreationProcess)));
-                $("#undo-sn-btn").attr("aria-disabled", "false").prop("disabled", false).removeClass("disabled");
+                if (sortingNetworkStates.length > 1) {
+                    $("#undo-sn-btn").attr("aria-disabled", "false").prop("disabled", false).removeClass("disabled");
+                }
             }
             p.drawNewComparatorIfNeeded();
         };

@@ -12,7 +12,8 @@ var sortingNetworkSaved = function() {
 var undoAction = function(event) {
     console.log("Undo and action");
     if (sortingNetworkStates.length > 1) {
-        sortingNetworkStates.pop();
+        sortingNetworkStatesUndone.push(sortingNetworkStates.pop());
+        $("#redo-sn-btn").attr("aria-disabled", "false").prop("disabled", false).removeClass("disabled");
         sortingNetworkInCreationProcess = JSON.parse(JSON.stringify(sortingNetworkStates.pop()));
         snNeedToBeRedrawn = true;
         if (sortingNetworkStates.length === 0) {
@@ -23,4 +24,11 @@ var undoAction = function(event) {
 
 var redoAction = function(event) {
     console.log("Redo and action");
+    if (sortingNetworkStatesUndone.length > 0) {
+        sortingNetworkInCreationProcess = JSON.parse(JSON.stringify(sortingNetworkStatesUndone.pop()));
+        snNeedToBeRedrawn = true;
+        if (sortingNetworkStatesUndone.length === 0) {
+            $("#redo-sn-btn").attr("aria-disabled", "true").addClass("disabled").prop("disabled", true);
+        }
+    }
 };
