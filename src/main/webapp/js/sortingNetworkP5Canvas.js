@@ -200,8 +200,8 @@ var removeComparatorFromSortingNetwork = function(comparatorClicked, sortingNetw
     if (comparatorRemoved) {
         var snAfterDeletion = {
             "numberOfWires": sortingNetworkInCreationProcess.numberOfWires,
-            "id": null,
-            "user" : null,
+            "id": sortingNetworkInCreationProcess.id,
+            "user" : sortingNetworkInCreationProcess.user,
             "parallelComparators": []
         };
         sortingNetworkInCreationProcess.parallelComparators.forEach(function(pc) {

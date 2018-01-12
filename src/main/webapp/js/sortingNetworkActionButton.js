@@ -5,6 +5,13 @@ var saveSortingNetwork = function(event) {
     SortingNetworkService.SaveSortingNetwork(sortingNetworkInCreationProcess, csrfTokenName, csrfTokenValue, sortingNetworkSaved)
 };
 
+var saveEditedSortingNetwork = function() {
+    console.log("Saving edited sorting network: " + sortingNetworkInCreationProcess);
+    var csrfTokenName = $("meta[name='_csrf_header']").attr("content");
+    var csrfTokenValue = $("#csrf-input").attr("value");
+    SortingNetworkService.SaveEditedSortingNetwork(sortingNetworkInCreationProcess, csrfTokenName, csrfTokenValue, sortingNetworkSaved)
+};
+
 var sortingNetworkSaved = function() {
     location.reload(true);
 };

@@ -7,37 +7,46 @@ var displayErrorMesssage = function (errorMessageTag) {
         "</ul>");
 };
 
-var renderNetworkCanvas = function() {
-    var element = $(this);
-    var numberOfWires = parseInt($("#sn-wire-number").val());
+var addToolButtons = function(element) {
     element.empty();
     var snContainerId = "new-sn-network-container";
     element.html(
         "<div id=\"create-sn-btn-container\" class=\"row\">" +
-            "<button id=\"undo-sn-btn\" type=\"button\" class=\"btn btn-dark\">" +
-                "<i class=\"fa fa-undo\" aria-hidden=\"true\"></i> Undo" +
-            "</button>" +
-            "<button id=\"redo-sn-btn\" type=\"button\" class=\"btn btn-dark\">" +
-                "<i class=\"fa fa-repeat\" aria-hidden=\"true\"></i> Redo" +
-            "</button>" +
-            "<button id=\"save-sn-btn\" type=\"button\" class=\"btn btn-dark\">" +
-                "<i class=\"fa fa-floppy-o\" aria-hidden=\"true\"></i> Save" +
-            "</button>" +
+        "<button id=\"undo-sn-btn\" type=\"button\" class=\"btn btn-dark\">" +
+        "<i class=\"fa fa-undo\" aria-hidden=\"true\"></i> Undo" +
+        "</button>" +
+        "<button id=\"redo-sn-btn\" type=\"button\" class=\"btn btn-dark\">" +
+        "<i class=\"fa fa-repeat\" aria-hidden=\"true\"></i> Redo" +
+        "</button>" +
+        "<button id=\"save-sn-btn\" type=\"button\" class=\"btn btn-dark\">" +
+        "<i class=\"fa fa-floppy-o\" aria-hidden=\"true\"></i> Save" +
+        "</button>" +
         "</div>" +
         "<div id=\"" + snContainerId + "\" class=\"row\">" +
         "</div>");
-    sortingNetworkToRender = {
-        "numberOfWires": numberOfWires,
-        "id": null,
-        "user": null,
-        "parallelComparators": []
-    };
+    return snContainerId;
+};
+
+var renderCanvas = function(snContainerId) {
     sortingNetworkStates = [];
     sortingNetworkStatesUndone = [];
     editableCanvasForSortingNetwork = true;
     new p5(sortingNetworkP5Canvas, document.getElementById(snContainerId));
     editableCanvasForSortingNetwork = false;
     $("#" + snContainerId + " canvas").attr("oncontextmenu", "return false;");
+};
+
+var renderNetworkCanvas = function() {
+    var element = $(this);
+    var numberOfWires = parseInt($("#sn-wire-number").val());
+    var snContainerId = addToolButtons(element);
+    sortingNetworkToRender = {
+        "numberOfWires": numberOfWires,
+        "id": null,
+        "user": null,
+        "parallelComparators": []
+    };
+    renderCanvas(snContainerId);
     $("#save-sn-btn").attr("onclick", "saveSortingNetwork(event)");
     $("#undo-sn-btn").attr("onclick", "undoAction(event)").attr("aria-disabled", "true").addClass("disabled").prop("disabled", true);
     $("#redo-sn-btn").attr("onclick", "redoAction(event)").attr("aria-disabled", "true").addClass("disabled").prop("disabled", true);

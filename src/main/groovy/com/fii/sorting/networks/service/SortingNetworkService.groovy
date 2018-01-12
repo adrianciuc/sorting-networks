@@ -8,6 +8,7 @@ import com.fii.sorting.networks.model.Comparator
 import com.fii.sorting.networks.model.ParallelComparators
 import com.fii.sorting.networks.model.SortingNetwork
 import com.fii.sorting.networks.model.User
+import com.fii.sorting.networks.repository.ParallelComparatorRepository
 import com.fii.sorting.networks.repository.SortingNetworkRepository
 import com.fii.sorting.networks.repository.UserRepository
 import com.fii.sorting.networks.security.CustomUserDetails
@@ -21,10 +22,14 @@ class SortingNetworkService {
 
     private final UserRepository userRepository
 
+    private final ParallelComparatorRepository parallelComparatorRepository
+
     @Autowired
-    SortingNetworkService(SortingNetworkRepository sortingNetworkRepository, UserRepository userRepository) {
+    SortingNetworkService(SortingNetworkRepository sortingNetworkRepository, UserRepository userRepository,
+                          ParallelComparatorRepository parallelComparatorRepository) {
         this.sortingNetworkRepository = sortingNetworkRepository
         this.userRepository = userRepository
+        this.parallelComparatorRepository = parallelComparatorRepository
     }
 
     List<SortingNetworkBean> getAll() {
@@ -83,10 +88,53 @@ class SortingNetworkService {
         }
     }
 
+    SortingNetworkBean getSortingNetwork(CustomUserDetails user, Integer snId) {
+        SortingNetworkBean sortingNetworkBean = null
+        if (user) {
+            SortingNetwork sn = sortingNetworkRepository.findOne(snId)
+            if (sn?.user?.email?.equalsIgnoreCase(user?.username)) {
+                sortingNetworkBean = new SortingNetworkBean(
+                        user: new UserBean(
+                                email: sn.user.email,
+                                firstName: sn.user.firstName,
+                                lastName: sn.user.lastName
+                        ),
+                        numberOfWires: sn.numberOfWires,
+                        id: sn.id,
+                        parallelComparators: sn.parallelComparators.collect { pc ->
+                            new ParallelComparatorsBean(
+                                    comparators: pc.comparators.collect { cmp ->
+                                        new ComparatorBean(
+                                                topWireNumber: cmp.topWireNumber,
+                                                bottomWireNumber: cmp.bottomWireNumber
+                                        )
+                                    }
+                            )
+                        }
+                )
+            }
+        }
+        return sortingNetworkBean
+    }
+
+    void updateSortingNetwork(CustomUserDetails authenticatedUser,  Integer snId,
+                              SortingNetworkBean sortingNetworkToUpdate) {
+        SortingNetwork existent = sortingNetworkRepository.findOne(snId)
+        if (existent) {
+            if (existent.parallelComparators) {
+                parallelComparatorRepository.deleteInBatch(existent.parallelComparators)
+            }
+            save(authenticatedUser, sortingNetworkToUpdate, existent)
+        }
+    }
+
     void saveSortingNetwork(CustomUserDetails authenticatedUser, SortingNetworkBean sortingNetworkToSave) {
+        save(authenticatedUser, sortingNetworkToSave, new SortingNetwork())
+    }
+
+    private void save(CustomUserDetails authenticatedUser, sortingNetworkToSave, SortingNetwork toBeSaved) {
         if (authenticatedUser) {
             User owner = userRepository.findOne(authenticatedUser.userId)
-            SortingNetwork toBeSaved = new SortingNetwork()
             toBeSaved.with {
                 user = owner
                 numberOfWires = sortingNetworkToSave.numberOfWires

@@ -6,7 +6,7 @@ var contextMenuEnding = "\"><ul\" class=\"nav navbar-nav\">\n" +
     "                        <div class=\"dots\"></div>\n" +
     "                    </a>\n" +
     "                    <ul class=\"dropdown-menu\" role=\"menu\">\n" +
-    "                        <li><a href=\"#\">Edit</a></li>\n" +
+    "                        <li><a id=\"edit-sn\" href=\"#\">Edit</a></li>\n" +
     "                        <li><a id=\"delete-sn\" href=\"#\">Delete</a></li>\n" +
     "                    </ul>\n" +
     "                </li>\n" +
@@ -37,6 +37,30 @@ var deleteSn = function(event, snId) {
     SortingNetworkService.DeleteSortingNetwork(snId, csrfTokenName, csrfTokenValue, removeRenderedSortingNetwork);
 };
 
+var editSn = function(event, snId) {
+    event.preventDefault();
+    console.log("Editing sorting network with id " + snId);
+    SortingNetworkService.GetOneForLoggedInUser(snId, placeSnCreationPage);
+};
+
+var placeSnCreationPage = function(sn) {
+    console.log("Received from server sn: " + sn);
+    $("#new-sn-network").fadeOut(100, function () {
+        var element = $(this);
+        var snContainerId = addToolButtons(element);
+        $("#create-sn-btn-container").append(
+            "<button id=\"cancel-edit-sn-btn\" type=\"button\" class=\"btn btn-dark\">Cancel</button>");
+        $("#cancel-edit-sn-btn").attr("onclick", "location.reload(true)");
+        sortingNetworkToRender = sn;
+        renderCanvas(snContainerId);
+        $("#save-sn-btn").attr("onclick", "saveEditedSortingNetwork()");
+        $("#undo-sn-btn").attr("onclick", "undoAction(event)").attr("aria-disabled", "true").addClass("disabled").prop("disabled", true);
+        $("#redo-sn-btn").attr("onclick", "redoAction(event)").attr("aria-disabled", "true").addClass("disabled").prop("disabled", true);
+        $("#new-sn-network-tab").tab('show').text("Edit Network").focus();
+        element.fadeIn();
+    });
+};
+
 var renderContextMenu = function(e) {
     var canvasId = getCanvasId(e.target);
     var snId = canvasId.substr(0, canvasId.indexOf('-'));
@@ -44,6 +68,7 @@ var renderContextMenu = function(e) {
         $("#" + canvasId).prev().toggle();
         $("#" + canvasId).before(contextMenuBegining + canvasId + 1 + contextMenuEnding);
         $("#delete-sn").attr("onclick", "deleteSn(event, " + snId + ")");
+        $("#edit-sn").attr("onclick", "editSn(event, " + snId + ")");
     }
 };
 

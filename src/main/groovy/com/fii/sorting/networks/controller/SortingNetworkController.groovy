@@ -40,6 +40,19 @@ class SortingNetworkController {
         sortingNetworkService.deleteSortingNetwork(user, snId)
     }
 
+    @RequestMapping(method = GET, path = "/{snId}")
+    SortingNetworkBean getSortingNetwork(@AuthenticationPrincipal CustomUserDetails user,
+                              @PathVariable("snId") Integer snId) {
+        sortingNetworkService.getSortingNetwork(user, snId)
+    }
+
+    @RequestMapping(method = POST, path = "/{snId}")
+    void updateSortingNetwork(@AuthenticationPrincipal CustomUserDetails user,
+                              @PathVariable("snId") Integer snId,
+                              @RequestBody SortingNetworkBean sortingNetworkToUpdate) {
+        sortingNetworkService.updateSortingNetwork(user, snId, sortingNetworkToUpdate)
+    }
+
     @RequestMapping(method = POST, consumes = APPLICATION_JSON_VALUE)
     @ResponseStatus(value = CREATED)
     void saveSortingNetwork(@AuthenticationPrincipal CustomUserDetails user,

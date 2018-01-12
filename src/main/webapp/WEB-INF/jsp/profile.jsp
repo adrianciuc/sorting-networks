@@ -89,7 +89,6 @@ mary">
                         <div class="img-rounded profile-img"></div>${firstName} ${lastName}<span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Profile</a></li>
                         <li>
                             <form id="logout-form-id" class="col-sm-offset-1" action="/logout" method="post">
                                 <input id="csrf-input" type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
