@@ -59,7 +59,9 @@ var drawSortingNetwork = function(p, sortingNetwork) {
     var scaledHeight = 20 + sortingNetwork.numberOfWires * 25 + sortingNetwork.numberOfWires * 5;
     var canvasLength = scaleLength < 600 ? 600 : scaleLength;
     canvasLength = canvasLength > 975 ? 975 : canvasLength;
+    p.canvasLength = canvasLength - 20;
     var canvasHeight = scaledHeight < 400 ? 400 : scaledHeight;
+    p.canvasHeight = canvasHeight - canvasHeight/sortingNetwork.numberOfWires + 10;
     p.createCanvas(canvasLength, canvasHeight).id(sortingNetwork.id + "-" + Math.floor((Math.random() * 1000000)));
     p.background('#152738');
     p.stroke(126);
@@ -277,7 +279,8 @@ var sortingNetworkP5Canvas = function(p) {
         };
 
         p.mousePressed = function () {
-            if (p.mouseButton === p.LEFT && p.mouseX >= 0 && p.mouseY >=0) {
+            if (p.mouseButton === p.LEFT && p.mouseX >= 0 && p.mouseY >=0
+                && p.mouseX <= p.canvasLength && p.mouseY <= p.canvasHeight) {
                 mouseX = p.mouseX;
                 mouseY = getTheClosestYOfAWire(p, p.wires, previousMouseY, drawLine);
             }
