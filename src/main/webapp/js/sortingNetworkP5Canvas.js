@@ -126,12 +126,17 @@ var comparatorCanBeAddedInParallelComparatorsGroup = function (comparator, paral
             && (element.bottomWireNumber < comparator.topWireNumber));
         var elementIsBelowComparator = ((element.topWireNumber > comparator.bottomWireNumber)
             && (element.bottomWireNumber > comparator.bottomWireNumber));
-        return !(elementIsAboveComparator || elementIsBelowComparator);
+        var elementIncludeComparator = (element.topWireNumber < comparator.topWireNumber)
+            && (element.bottomWireNumber > comparator.bottomWireNumber);
+        var elementIsIncludedInComparator = (element.topWireNumber > comparator.topWireNumber)
+            && (element.bottomWireNumber < comparator.bottomWireNumber);
+        return !(elementIsAboveComparator || elementIsBelowComparator
+            || elementIncludeComparator || elementIsIncludedInComparator);
     });
     return index === -1;
 };
 
-var placeComparatorInAppropriateParallelComparatorsGroup = function(sortingNetwork, comparator) {
+var placeComparatorAtTheEnd = function(sortingNetwork, comparator) {
     var lastParallelComparator;
     if (sortingNetwork.parallelComparators.length !== 0) {
         for (var i = sortingNetwork.parallelComparators.length - 1; i >= 0; i--) {
@@ -148,6 +153,34 @@ var placeComparatorInAppropriateParallelComparatorsGroup = function(sortingNetwo
         : sortingNetwork.parallelComparators.push({"comparators": [comparator]});
 };
 
+var placeComparatorInAppropriateParallelComparatorsGroup = function(p, sortingNetwork, comparator) {
+    var comparatorAfterAddedComparator = p.comparators.find(function (cmp) {
+        return cmp.x >= comparator.x;
+    });
+    if (comparatorAfterAddedComparator) {
+        console.log("Comparator: is not added at the end");
+        var pCGroupToBeAddedIndex = comparatorAfterAddedComparator.parallelComparatorIndex;
+        var parallelComparatorsToBeTried = [];
+        if (pCGroupToBeAddedIndex - 1 >= 0) {
+            parallelComparatorsToBeTried.push(sortingNetworkInCreationProcess.parallelComparators[pCGroupToBeAddedIndex - 1]);
+        }
+        parallelComparatorsToBeTried.push(sortingNetworkInCreationProcess.parallelComparators[pCGroupToBeAddedIndex]);
+        var added = false;
+        parallelComparatorsToBeTried.forEach(function (pc) {
+            if (!added && comparatorCanBeAddedInParallelComparatorsGroup(comparator, pc)) {
+                pc.comparators.push(comparator);
+                added = true;
+            }
+        });
+        if (!added) {
+            console.log("Need to create other group");
+            sortingNetworkInCreationProcess.parallelComparators.splice(pCGroupToBeAddedIndex, 0, {"comparators": [comparator]});
+        }
+    } else {
+        placeComparatorAtTheEnd(sortingNetwork, comparator);
+    }
+};
+
 var preservePreviousSNStatesInUndoArray = function preservePreviousSNStatesInUndoArray() {
     if (sortingNetworkStatesUndone.length !== 0) {
         var lastState = JSON.parse(JSON.stringify(sortingNetworkStates[sortingNetworkStates.length - 1]));
@@ -160,11 +193,12 @@ var preservePreviousSNStatesInUndoArray = function preservePreviousSNStatesInUnd
     $("#redo-sn-btn").attr("aria-disabled", "true").addClass("disabled").prop("disabled", true);
 };
 
-var addComparatorToSortingNetwork = function(p, sortingNetwork, y1, y2) {
+var addComparatorToSortingNetwork = function(p, sortingNetwork, x1, y1, y2) {
     var comparator = {};
+    comparator.x = x1;
     comparator.topWireNumber = p.wires.indexOf(Math.min(y1, y2));
     comparator.bottomWireNumber = p.wires.indexOf(Math.max(y1, y2));
-    placeComparatorInAppropriateParallelComparatorsGroup(sortingNetwork, comparator);
+    placeComparatorInAppropriateParallelComparatorsGroup(p, sortingNetwork, comparator);
     preservePreviousSNStatesInUndoArray();
     snNeedToBeRedrawn = true;
 };
@@ -248,7 +282,7 @@ var sortingNetworkP5Canvas = function(p) {
                 p.stroke('#fae');
                 p.ellipse(previousMouseX, previousMouseY, 7, 7);
                 p.ellipse(previousMouseX, mouseY, 7, 7);
-                addComparatorToSortingNetwork(p, sortingNetworkInCreationProcess, previousMouseY, mouseY);
+                addComparatorToSortingNetwork(p, sortingNetworkInCreationProcess, mouseX, previousMouseY, mouseY);
                 console.log(sortingNetworkInCreationProcess);
                 drawLine = false;
             } else {
