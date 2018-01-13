@@ -70,12 +70,20 @@ TopSortingNetworkService = function(sortingNetworkListContainerId, pillsContaine
             var firstNumberOfComparators = 0;
             var secondNumberOfComparators = 0;
             if (first.parallelComparators.length !== 0) {
-                first.parallelComparators.reduce(tsnSelf.stackAllComparators);
+                firstNumberOfComparators = first.parallelComparators.reduce(tsnSelf.stackAllComparators);
             }
             if (second.parallelComparators.length !== 0) {
-                second.parallelComparators.reduce(tsnSelf.stackAllComparators);
+                secondNumberOfComparators = second.parallelComparators.reduce(tsnSelf.stackAllComparators);
             }
-            return secondNumberOfComparators - firstNumberOfComparators;
+            firstNumberOfComparators =
+                firstNumberOfComparators.comparators ?
+                    firstNumberOfComparators.comparators.length :
+                    firstNumberOfComparators;
+            secondNumberOfComparators =
+                secondNumberOfComparators.comparators ?
+                    secondNumberOfComparators.comparators.length :
+                    secondNumberOfComparators;
+            return firstNumberOfComparators - secondNumberOfComparators;
         });
     };
 
