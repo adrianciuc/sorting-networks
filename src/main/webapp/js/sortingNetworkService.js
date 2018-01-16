@@ -11,6 +11,8 @@ SortingNetworkService = function () {
 
     self.getAllCurrentUserUrl = self.getAllUrl + "/current";
 
+    self.checkSortingNetworkUrl = self.getAllUrl + "/checks";
+
     self.GetAll = function (func) {
         Service.Get(this.getAllUrl).done(function (data) {
             func(data);
@@ -44,6 +46,12 @@ SortingNetworkService = function () {
     self.SaveEditedSortingNetwork = function(sn, csrfTokenName, csrfTokenValue, func) {
         Service.Post(self.getOneCurrentUserUrl + sn.id, sn, csrfTokenName, csrfTokenValue).done(function() {
             func();
+        });
+    };
+
+    self.CheckSortingNetwork = function(sn, csrfTokenName, csrfTokenValue, func) {
+        Service.Post(self.checkSortingNetworkUrl, sn, csrfTokenName, csrfTokenValue).done(function(data) {
+            func(data);
         });
     };
 

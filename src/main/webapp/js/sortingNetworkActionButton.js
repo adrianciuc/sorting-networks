@@ -9,11 +9,28 @@ var saveEditedSortingNetwork = function() {
     console.log("Saving edited sorting network: " + sortingNetworkInCreationProcess);
     var csrfTokenName = $("meta[name='_csrf_header']").attr("content");
     var csrfTokenValue = $("#csrf-input").attr("value");
-    SortingNetworkService.SaveEditedSortingNetwork(sortingNetworkInCreationProcess, csrfTokenName, csrfTokenValue, sortingNetworkSaved)
+    SortingNetworkService.SaveEditedSortingNetwork(sortingNetworkInCreationProcess, csrfTokenName, csrfTokenValue, sortingNetworkSaved);
 };
 
 var sortingNetworkSaved = function() {
     location.reload(true);
+};
+
+var checkSortingNetwork = function() {
+    console.log("Checking sorting network");
+    var csrfTokenName = $("meta[name='_csrf_header']").attr("content");
+    var csrfTokenValue = $("#csrf-input").attr("value");
+    SortingNetworkService.CheckSortingNetwork(sortingNetworkInCreationProcess, csrfTokenName, csrfTokenValue, sortingNetworkChecked);
+
+};
+
+var sortingNetworkChecked = function (unsortedInput) {
+    if (unsortedInput.length === 0) {
+        console.log("Network can sort every input");
+    } else {
+        console.log("Network can not sort this input: ");
+        console.log(unsortedInput);
+    }
 };
 
 var undoAction = function(event) {

@@ -18,6 +18,7 @@ var addToolButtons = function(element) {
         "<button id=\"redo-sn-btn\" type=\"button\" class=\"btn btn-dark\">" +
         "<i class=\"fa fa-repeat\" aria-hidden=\"true\"></i> Redo" +
         "</button>" +
+        "<button id=\"check-sn-btn\" type=\"button\" class=\"btn btn-dark\">Check" +
         "<button id=\"save-sn-btn\" type=\"button\" class=\"btn btn-dark\">" +
         "<i class=\"fa fa-floppy-o\" aria-hidden=\"true\"></i> Save" +
         "</button>" +
@@ -48,6 +49,7 @@ var renderNetworkCanvas = function() {
     };
     renderCanvas(snContainerId);
     $("#save-sn-btn").attr("onclick", "saveSortingNetwork(event)");
+    $("#check-sn-btn").attr("onclick", "checkSortingNetwork(event)");
     $("#undo-sn-btn").attr("onclick", "undoAction(event)").attr("aria-disabled", "true").addClass("disabled").prop("disabled", true);
     $("#redo-sn-btn").attr("onclick", "redoAction(event)").attr("aria-disabled", "true").addClass("disabled").prop("disabled", true);
     element.fadeIn();

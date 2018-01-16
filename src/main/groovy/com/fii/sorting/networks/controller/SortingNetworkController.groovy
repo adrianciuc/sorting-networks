@@ -2,6 +2,7 @@ package com.fii.sorting.networks.controller
 
 import com.fii.sorting.networks.beans.SortingNetworkBean
 import com.fii.sorting.networks.security.CustomUserDetails
+import com.fii.sorting.networks.service.SortingNetworkCheckService
 import com.fii.sorting.networks.service.SortingNetworkService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -18,9 +19,13 @@ class SortingNetworkController {
 
     private final SortingNetworkService sortingNetworkService
 
+    private final SortingNetworkCheckService sortingNetworkCheckService
+
     @Autowired
-    SortingNetworkController(SortingNetworkService sortingNetworkService) {
+    SortingNetworkController(SortingNetworkService sortingNetworkService,
+                             SortingNetworkCheckService sortingNetworkCheckService) {
         this.sortingNetworkService = sortingNetworkService
+        this.sortingNetworkCheckService = sortingNetworkCheckService
     }
 
     @RequestMapping(method = GET)
@@ -58,5 +63,12 @@ class SortingNetworkController {
     void saveSortingNetwork(@AuthenticationPrincipal CustomUserDetails user,
                             @RequestBody SortingNetworkBean sortingNetworkToSave) {
         sortingNetworkService.saveSortingNetwork(user, sortingNetworkToSave)
+    }
+
+    @RequestMapping(method = POST, consumes = APPLICATION_JSON_VALUE, path="/checks")
+    @ResponseStatus(value = OK)
+    List checkSortingNetwork(@AuthenticationPrincipal CustomUserDetails user,
+                            @RequestBody SortingNetworkBean sortingNetworkToCheck) {
+        return sortingNetworkCheckService.checkIfSortsAllInput(user, sortingNetworkToCheck)
     }
 }

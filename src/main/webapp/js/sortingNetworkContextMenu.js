@@ -54,6 +54,7 @@ var placeSnCreationPage = function(sn) {
         sortingNetworkToRender = sn;
         renderCanvas(snContainerId);
         $("#save-sn-btn").attr("onclick", "saveEditedSortingNetwork()");
+        $("#check-sn-btn").attr("onclick", "checkSortingNetwork(event)");
         $("#undo-sn-btn").attr("onclick", "undoAction(event)").attr("aria-disabled", "true").addClass("disabled").prop("disabled", true);
         $("#redo-sn-btn").attr("onclick", "redoAction(event)").attr("aria-disabled", "true").addClass("disabled").prop("disabled", true);
         $("#new-sn-network-tab").tab('show').text("Edit Network").focus();
