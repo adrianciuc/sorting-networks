@@ -3,18 +3,18 @@ SortingNetworkService = function () {
 
     self.baseUrl = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port;
 
-    self.getAllUrl = self.baseUrl + "/api/sorting-networks";
+    self.getAllFinishedUrl = self.baseUrl + "/api/sorting-networks";
 
-    self.getOneCurrentUserUrl = self.getAllUrl + "/";
+    self.getOneCurrentUserUrl = self.getAllFinishedUrl + "/";
 
     self.deleteSnUrl = self.getOneCurrentUserUrl;
 
-    self.getAllCurrentUserUrl = self.getAllUrl + "/current";
+    self.getAllCurrentUserUrl = self.getAllFinishedUrl + "/current";
 
-    self.checkSortingNetworkUrl = self.getAllUrl + "/checks";
+    self.checkSortingNetworkUrl = self.getAllFinishedUrl + "/checks";
 
-    self.GetAll = function (func) {
-        Service.Get(this.getAllUrl).done(function (data) {
+    self.GetAllFinished = function (func) {
+        Service.Get(this.getAllFinishedUrl).done(function (data) {
             func(data);
         });
     };
@@ -38,7 +38,7 @@ SortingNetworkService = function () {
     };
 
     self.SaveSortingNetwork = function(sn, csrfTokenName, csrfTokenValue, func) {
-        Service.Post(self.getAllUrl, sn, csrfTokenName, csrfTokenValue).done(function() {
+        Service.Post(self.getAllFinishedUrl, sn, csrfTokenName, csrfTokenValue).done(function() {
             func();
         });
     };

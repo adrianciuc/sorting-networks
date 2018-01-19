@@ -4,6 +4,7 @@ class SortingNetworkBean {
 
     UserBean user
     Integer numberOfWires
+    Boolean sortsEverything
     Integer id
     List<ParallelComparatorsBean> parallelComparators
 }

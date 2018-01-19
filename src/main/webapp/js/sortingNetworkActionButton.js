@@ -1,5 +1,6 @@
 var saveSortingNetwork = function(event) {
     console.log("Saving sorting network: " + sortingNetworkInCreationProcess);
+    showLoadingSpiner();
     var csrfTokenName = $("meta[name='_csrf_header']").attr("content");
     var csrfTokenValue = $("#csrf-input").attr("value");
     SortingNetworkService.SaveSortingNetwork(sortingNetworkInCreationProcess, csrfTokenName, csrfTokenValue, sortingNetworkSaved)
@@ -7,6 +8,7 @@ var saveSortingNetwork = function(event) {
 
 var saveEditedSortingNetwork = function() {
     console.log("Saving edited sorting network: " + sortingNetworkInCreationProcess);
+    showLoadingSpiner();
     var csrfTokenName = $("meta[name='_csrf_header']").attr("content");
     var csrfTokenValue = $("#csrf-input").attr("value");
     SortingNetworkService.SaveEditedSortingNetwork(sortingNetworkInCreationProcess, csrfTokenName, csrfTokenValue, sortingNetworkSaved);
@@ -18,6 +20,7 @@ var sortingNetworkSaved = function() {
 
 var checkSortingNetwork = function() {
     console.log("Checking sorting network");
+    showLoadingSpiner();
     var csrfTokenName = $("meta[name='_csrf_header']").attr("content");
     var csrfTokenValue = $("#csrf-input").attr("value");
     SortingNetworkService.CheckSortingNetwork(sortingNetworkInCreationProcess, csrfTokenName, csrfTokenValue, sortingNetworkChecked);
@@ -25,11 +28,34 @@ var checkSortingNetwork = function() {
 };
 
 var sortingNetworkChecked = function (unsortedInput) {
+    removeLoadingSpiner();
     if (unsortedInput.length === 0) {
-        console.log("Network can sort every input");
+        $("#unsorted-input").html("<span class='top-number'>Sorts everything !!!</span>");
     } else {
         console.log("Network can not sort this input: ");
-        console.log(unsortedInput);
+        var toBeShown;
+        if (unsortedInput.length > 100000) {
+            toBeShown = 20;
+        } else {
+            toBeShown = unsortedInput.length;
+        }
+        //TODO: Increase performance here
+        var unsortedInputAsHtml = "<p>" +
+                "<span class='sn-property-value'>" +
+                    unsortedInput.length +
+                "</span> " +
+                "<span class='top-username'>" +
+                    " unsorted entries. First "+
+                    "<span class='sn-property-value' style='color: white'>" +
+                        toBeShown +
+                    "</span>" +
+                    " are:" +
+                "</span>" +
+            "</p>" +
+            "<p id=\"unsorted-input-text\">" +
+                unsortedInput.join("] - [") +
+            "</p>";
+        document.getElementById('unsorted-input').innerHTML = unsortedInputAsHtml;
     }
 };
 
@@ -55,4 +81,14 @@ var redoAction = function(event) {
             $("#redo-sn-btn").attr("aria-disabled", "true").addClass("disabled").prop("disabled", true);
         }
     }
+};
+
+var showLoadingSpiner = function() {
+    $("<div id='woohoo' class='app-spinner-container'>" +
+        "<i class=\"fa fa-circle-o-notch fa-spin app-spinner\"></i></div>")
+        .appendTo($("#new-sn-network").css("position", "relative"));
+};
+
+var removeLoadingSpiner = function() {
+    $("#woohoo").remove();
 };

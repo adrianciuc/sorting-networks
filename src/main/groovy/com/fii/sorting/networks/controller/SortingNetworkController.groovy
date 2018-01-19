@@ -30,7 +30,7 @@ class SortingNetworkController {
 
     @RequestMapping(method = GET)
     List<SortingNetworkBean> getAll() {
-        this.sortingNetworkService.all
+        this.sortingNetworkService.allFinished
     }
 
     @RequestMapping(method = GET, path = "/current")

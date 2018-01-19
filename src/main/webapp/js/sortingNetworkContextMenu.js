@@ -47,11 +47,10 @@ var placeSnCreationPage = function(sn) {
     console.log("Received from server sn: " + sn);
     $("#new-sn-network").fadeOut(100, function () {
         var element = $(this);
-        var snContainerId = addToolButtons(element);
-        $("#create-sn-btn-container").append(
-            "<button id=\"cancel-edit-sn-btn\" type=\"button\" class=\"btn btn-dark\">Cancel</button>");
+        var snContainerId = addToolButtons(element, sn);
         $("#cancel-edit-sn-btn").attr("onclick", "location.reload(true)");
         sortingNetworkToRender = sn;
+        showSortingNetworkProperties(sortingNetworkToRender);
         renderCanvas(snContainerId);
         $("#save-sn-btn").attr("onclick", "saveEditedSortingNetwork()");
         $("#check-sn-btn").attr("onclick", "checkSortingNetwork(event)");
@@ -66,8 +65,8 @@ var renderContextMenu = function(e) {
     var canvasId = getCanvasId(e.target);
     var snId = canvasId.substr(0, canvasId.indexOf('-'));
     if ($("#" + canvasId + 1).length === 0) {
-        $("#" + canvasId).prev().toggle();
-        $("#" + canvasId).before(contextMenuBegining + canvasId + 1 + contextMenuEnding);
+        $("#" + canvasId).prev().prev().toggle();
+        $("#" + canvasId).prev().before(contextMenuBegining + canvasId + 1 + contextMenuEnding);
         $("#delete-sn").attr("onclick", "deleteSn(event, " + snId + ")");
         $("#edit-sn").attr("onclick", "editSn(event, " + snId + ")");
     }
@@ -77,7 +76,7 @@ var removeContextMenu = function(e) {
     var canvasId = getCanvasId(e.target);
     if ($("#" + canvasId + 1).length !== 0) {
         $("#" + canvasId + 1).remove();
-        $("#" + canvasId).prev().toggle();
+        $("#" + canvasId).prev().prev().toggle();
     }
 };
 

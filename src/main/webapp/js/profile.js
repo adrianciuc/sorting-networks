@@ -1,14 +1,13 @@
 var addUserSortingNetworks = function() {
     console.log("Fetching server for current logged in user sorting networks");
-    var topSortingNetworkService = TopSortingNetworkService("#user-sn-list", "#user-sn-pills-list", false, addContextMenu, true);
+    var topSortingNetworkService = TopSortingNetworkService("#user-sn-list", "#user-sn-pills-list", false, addContextMenu, true, false);
     SortingNetworkService.GetAllForLoggedInUser(topSortingNetworkService.renderTopOfSortingNetworks);
 };
 
 var addTopOfSortingNetworks = function() {
     console.log("Fetching server for sorting networks");
-    //TODO: Use Get All Finished Networks instead of getting all networks
-    var topSortingNetworkService = TopSortingNetworkService("#top-sn-list", "#top-sn-pills-list", true, null, false);
-    SortingNetworkService.GetAll(topSortingNetworkService.renderTopOfSortingNetworks);
+    var topSortingNetworkService = TopSortingNetworkService("#top-sn-list", "#top-sn-pills-list", true, null, false, false);
+    SortingNetworkService.GetAllFinished(topSortingNetworkService.renderTopOfSortingNetworks);
 };
 
 var fadeOutEmptyFadeIn = function() {

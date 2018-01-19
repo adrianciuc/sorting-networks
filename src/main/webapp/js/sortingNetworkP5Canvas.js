@@ -7,6 +7,7 @@ var sortingNetworkInCreationProcess = null;
 var snNeedToBeRedrawn = false;
 var sortingNetworkStates = [];
 var sortingNetworkStatesUndone = [];
+var maxNumberOfWiresThatCanBeCheckedAutomatically = 12;
 
 var getTotalNumberOfComparatorsFromSortingNetwork = function (sortingNetwork) {
     var totalNumberOfComparators = 0;
@@ -130,8 +131,15 @@ var comparatorCanBeAddedInParallelComparatorsGroup = function (comparator, paral
             && (element.bottomWireNumber > comparator.bottomWireNumber);
         var elementIsIncludedInComparator = (element.topWireNumber > comparator.topWireNumber)
             && (element.bottomWireNumber < comparator.bottomWireNumber);
+        var elementIsBehindUp = (element.topWireNumber < comparator.topWireNumber)
+            && (element.bottomWireNumber > comparator.topWireNumber)
+            && (element.bottomWireNumber < comparator.bottomWireNumber);
+        var elementIsBehindDown = (element.topWireNumber > comparator.topWireNumber)
+            && (element.topWireNumber < comparator.bottomWireNumber)
+            && (element.bottomWireNumber > comparator.bottomWireNumber);
         return !(elementIsAboveComparator || elementIsBelowComparator
-            || elementIncludeComparator || elementIsIncludedInComparator);
+            || elementIncludeComparator || elementIsIncludedInComparator
+            || elementIsBehindUp || elementIsBehindDown);
     });
     return index === -1;
 };
@@ -250,6 +258,80 @@ var removeComparatorFromSortingNetwork = function(comparatorClicked, sortingNetw
     }
 };
 
+var getNetworkPropertiesContainer = function(sortingNetwork) {
+    var element;
+    var inTop = $("#sn-properties-" + sortingNetwork.id);
+    var inCreation = $("#sn-properties");
+    inTop.length === 0 ? element = inCreation : element = inTop;
+    return element;
+};
+
+function getNumberOfComparators(network) {
+    return network.parallelComparators.reduce(function (previousValue, element) {
+        return previousValue + element.comparators.length;
+    }, 0);
+}
+
+var showShortNetworkProperties = function (network) {
+    var element = getNetworkPropertiesContainer(network);
+    var completedClass;
+    var completedText;
+    if (network.sortsEverything) {
+            completedClass = " fa-check-circle green-font ";
+            completedText = " Completed "
+    } else {
+        completedClass = "fa-times-circle red-font";
+        completedText = " Not completed "
+    }
+    element.html(
+        "<span>" +
+            "<i class=\"fa " + completedClass + " sn-property-value\" aria-hidden=\"true\"></i>" +
+            "<span class='top-username'>" +
+                completedText + " having  " +
+            "</span>" +
+        "</span>" +
+        "<span class='sn-property-value'>" +
+            getNumberOfComparators(network) +
+        "</span>" +
+        "<span class='top-username'> " +
+            "comparators and " +
+        "</span>" +
+        "<span class='sn-property-value'>" +
+            network.parallelComparators.length + "</span>" +
+        "<span class='top-username'> " +
+            "parallel comparators groups " +
+        "</span>&nbsp&nbsp");
+};
+
+var showSortingNetworkProperties = function(sortingNetwork) {
+    var element = getNetworkPropertiesContainer(sortingNetwork);
+    element.html(
+        "<span class='top-username'>" +
+            "Nr. of wires: " +
+        "</span>" +
+        "<span class='sn-property-value'>" +
+            sortingNetwork.numberOfWires +
+        "</span>&nbsp&nbsp" +
+        "<span class='top-username'>" +
+            "Nr. of parallel comparators groups: " +
+        "</span>" +
+        "<span class='sn-property-value'>" +
+            sortingNetwork.parallelComparators.length +
+        "</span>&nbsp&nbsp" +
+        "<span class='top-username'>" +
+            "Nr. of comparators: " +
+        "</span>" +
+        "<span class='sn-property-value'>"
+            + getNumberOfComparators(sortingNetwork) +
+        "</span>");
+};
+
+var checkSnAuto = function() {
+    if (sortingNetworkInCreationProcess.numberOfWires <= maxNumberOfWiresThatCanBeCheckedAutomatically) {
+        checkSortingNetwork();
+    }
+};
+
 var sortingNetworkP5Canvas = function(p) {
 
     var mouseX;
@@ -265,9 +347,12 @@ var sortingNetworkP5Canvas = function(p) {
             if (editableCanvasForSortingNetwork) {
                 sortingNetworkInCreationProcess = JSON.parse(JSON.stringify(sortingNetworkToRender));
                 drawSortingNetwork(p, sortingNetworkInCreationProcess);
-                sortingNetworkStates.push(JSON.parse(JSON.stringify(sortingNetworkInCreationProcess)))
+                sortingNetworkStates.push(JSON.parse(JSON.stringify(sortingNetworkInCreationProcess)));
+                showSortingNetworkProperties(sortingNetworkInCreationProcess);
+                checkSnAuto();
             } else {
                 drawSortingNetwork(p, sortingNetworkToRender);
+                showShortNetworkProperties(sortingNetworkToRender);
             }
         }
     };
@@ -305,9 +390,11 @@ var sortingNetworkP5Canvas = function(p) {
                 drawSortingNetwork(p, sortingNetworkInCreationProcess);
                 snNeedToBeRedrawn = false;
                 sortingNetworkStates.push(JSON.parse(JSON.stringify(sortingNetworkInCreationProcess)));
+                showSortingNetworkProperties(sortingNetworkInCreationProcess);
                 if (sortingNetworkStates.length > 1) {
                     $("#undo-sn-btn").attr("aria-disabled", "false").prop("disabled", false).removeClass("disabled");
                 }
+                checkSnAuto();
             }
             p.drawNewComparatorIfNeeded();
         };

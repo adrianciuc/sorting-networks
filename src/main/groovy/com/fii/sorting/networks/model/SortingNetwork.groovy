@@ -25,4 +25,6 @@ class SortingNetwork {
     @ManyToOne
     @JoinColumn(name = 'user_id', nullable = false)
     User user
+    @Column(name = 'sorts_everything')
+    Boolean sortsEverything
 }

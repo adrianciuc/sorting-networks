@@ -1,4 +1,4 @@
-TopSortingNetworkService = function(sortingNetworkListContainerId, pillsContainerId, renderSortingNetworkRankAndOwner, renderEndedAction, renderContextMenuPlaceholderToggle) {
+TopSortingNetworkService = function(sortingNetworkListContainerId, pillsContainerId, renderSortingNetworkRankAndOwner, renderEndedAction, renderContextMenuPlaceholderToggle, displayNothingIfEmpty) {
 
     var tsnSelf = {};
 
@@ -7,6 +7,15 @@ TopSortingNetworkService = function(sortingNetworkListContainerId, pillsContaine
     tsnSelf.renderSortingNetworkRankAndOwner = renderSortingNetworkRankAndOwner;
     tsnSelf.renderContextMenuPlaceholderToggle = renderContextMenuPlaceholderToggle;
     tsnSelf.renderEndedAction = renderEndedAction;
+    tsnSelf.displayNothingIfEmpty = displayNothingIfEmpty;
+
+    tsnSelf.renderNetworkProperties = function(network){
+        var elementClass = "";
+        if (renderSortingNetworkRankAndOwner) {
+            elementClass = " class=\"row\"";
+        }
+        return "<div id=\"sn-properties-" + network.id + "\" "+ elementClass + "></div>";
+    };
 
     tsnSelf.renderNetworkUserName = function (network, index) {
         return tsnSelf.renderSortingNetworkRankAndOwner ?
@@ -40,6 +49,7 @@ TopSortingNetworkService = function(sortingNetworkListContainerId, pillsContaine
                 "<div id=\"" + sorting_network_container_name + "\" class=\"row\">"
                 + tsnSelf.renderNetworkUserName(network, index)
                 + tsnSelf.renderContextMenuPlaceholder()
+                + tsnSelf.renderNetworkProperties(network)
                 + "</div>");
     };
 
@@ -111,17 +121,51 @@ TopSortingNetworkService = function(sortingNetworkListContainerId, pillsContaine
         $(tsnSelf.pillsContainerId).children(":first").addClass("active");
     };
 
+    tsnSelf.displayWelcomeMessages = function () {
+        if (tsnSelf.displayNothingIfEmpty){
+            $("#top-content").remove();
+            $("#top-name").remove();
+        } else {
+            var noSNText;
+            var buttonId = "create-first-sn";
+            if (tsnSelf.renderSortingNetworkRankAndOwner) {
+                noSNText = "No one created a sorting network. Be the first one !";
+                buttonId = buttonId + "-mn";
+            } else {
+                noSNText = "You have no sorting networks";
+                buttonId = buttonId + "tn";
+            }
+            $(tsnSelf.sortingNetworkListContainerId).html(
+                "<div class='row'>" +
+                "<span class='row no-network-text'>" + noSNText + "</span>" +
+                "<button id=\"" + buttonId + "\" type=\"button\" class=\"btn btn-dark row\">" +
+                "Create Network" +
+                "</button>" +
+                "</div>");
+            $("#" + buttonId).attr("onclick", "showCreationPage(event)")
+        }
+    };
+
     tsnSelf.renderTopOfSortingNetworks = function (networks) {
         console.log("Rendering top of sorting networks");
-        var split = tsnSelf.splitByNumberOfWires(networks);
-        for (var numberOfWires in split) {
-            tsnSelf.renderGroupOfNetworks(numberOfWires, split[numberOfWires]);
-        }
-        tsnSelf.makeFirstGroupActive();
-        if (tsnSelf.renderEndedAction) {
-            renderEndedAction(networks, tsnSelf.sortingNetworkListContainerId);
+        if (networks.length === 0) {
+            tsnSelf.displayWelcomeMessages();
+        } else {
+            var split = tsnSelf.splitByNumberOfWires(networks);
+            for (var numberOfWires in split) {
+                tsnSelf.renderGroupOfNetworks(numberOfWires, split[numberOfWires]);
+            }
+            tsnSelf.makeFirstGroupActive();
+            if (tsnSelf.renderEndedAction) {
+                renderEndedAction(networks, tsnSelf.sortingNetworkListContainerId);
+            }
         }
     };
 
     return tsnSelf;
+};
+
+var showCreationPage = function (event) {
+    event.preventDefault();
+    $("#new-sn-network-tab").tab('show').focus();
 };

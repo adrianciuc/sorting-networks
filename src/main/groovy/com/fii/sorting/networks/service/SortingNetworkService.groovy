@@ -24,16 +24,20 @@ class SortingNetworkService {
 
     private final ParallelComparatorRepository parallelComparatorRepository
 
+    private final SortingNetworkCheckService sortingNetworkCheckService
+
     @Autowired
     SortingNetworkService(SortingNetworkRepository sortingNetworkRepository, UserRepository userRepository,
-                          ParallelComparatorRepository parallelComparatorRepository) {
+                          ParallelComparatorRepository parallelComparatorRepository,
+                          SortingNetworkCheckService sortingNetworkCheckService) {
         this.sortingNetworkRepository = sortingNetworkRepository
         this.userRepository = userRepository
         this.parallelComparatorRepository = parallelComparatorRepository
+        this.sortingNetworkCheckService = sortingNetworkCheckService
     }
 
-    List<SortingNetworkBean> getAll() {
-        sortingNetworkRepository.findAll().collect {
+    List<SortingNetworkBean> getAllFinished() {
+        sortingNetworkRepository.findBySortsEverything(true).collect {
             new SortingNetworkBean(
                     id: it.id,
                     user: new UserBean(
@@ -42,6 +46,7 @@ class SortingNetworkService {
                             lastName: it.user.lastName
                     ),
                     numberOfWires: it.numberOfWires,
+                    sortsEverything: it.sortsEverything,
                     parallelComparators: it.parallelComparators.collect {
                         new ParallelComparatorsBean(
                                 comparators: it.comparators.collect {
@@ -65,6 +70,7 @@ class SortingNetworkService {
                     new SortingNetworkBean(
                             id: it.id,
                             numberOfWires: it.numberOfWires,
+                            sortsEverything: it.sortsEverything,
                             parallelComparators: it.parallelComparators.collect {
                                 new ParallelComparatorsBean(
                                         comparators: it.comparators.collect {
@@ -100,6 +106,7 @@ class SortingNetworkService {
                                 lastName: sn.user.lastName
                         ),
                         numberOfWires: sn.numberOfWires,
+                        sortsEverything: sn.sortsEverything,
                         id: sn.id,
                         parallelComparators: sn.parallelComparators.collect { pc ->
                             new ParallelComparatorsBean(
@@ -132,12 +139,17 @@ class SortingNetworkService {
         save(authenticatedUser, sortingNetworkToSave, new SortingNetwork())
     }
 
-    private void save(CustomUserDetails authenticatedUser, sortingNetworkToSave, SortingNetwork toBeSaved) {
+    private void save(CustomUserDetails authenticatedUser, SortingNetworkBean sortingNetworkToSave,
+                      SortingNetwork toBeSaved) {
         if (authenticatedUser) {
             User owner = userRepository.findOne(authenticatedUser.userId)
+            def unsortedInput = sortingNetworkCheckService.checkIfSortsAllInput(
+                    authenticatedUser,
+                    sortingNetworkToSave)
             toBeSaved.with {
                 user = owner
                 numberOfWires = sortingNetworkToSave.numberOfWires
+                sortsEverything = (unsortedInput.size() == 0)
                 parallelComparators = sortingNetworkToSave.parallelComparators.collect { pcmp ->
                     ParallelComparators parallelComparatorsToBeSaved = new ParallelComparators()
                     parallelComparatorsToBeSaved.with {

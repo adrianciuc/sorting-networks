@@ -545,3 +545,22 @@ databaseChangeLog:
       changes:
         - sql:
             sql: UPDATE user SET password='$2a$10$UOIBHiTI6nklOhPil9LXq.xWKJY9qwtRtJbhVExTltac73sPcuSZm' WHERE email='adrian.ciucanel@outlook.com'
+
+  - changeSet:
+      id: 16
+      author: adrian
+      precondition:
+        onFail: MARK_RAN
+        columnExists:
+          tableName: sorting_network
+          columnName: sorts_everything
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: sorts_everything
+                  type: boolean
+                  defaultValue: false
+            tableName: sorting_network
+        - sql:
+            sql: UPDATE sorting_network SET sorts_everything=true WHERE id=2 OR id=3

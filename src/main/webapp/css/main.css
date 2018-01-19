@@ -92,3 +92,15 @@ hr.small {
 .maximus {
     max-width: 400px
 }
+
+.sn-property-value {
+    font-size: 120%;
+}
+
+.green-font {
+    color: #4cae4c;
+}
+
+.red-font {
+    color: #bd221a;
+}

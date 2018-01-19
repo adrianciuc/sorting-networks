@@ -33,6 +33,7 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/font-awesome.min.css">
 
     <!-- Custom CSS -->
     <link href="../../css/main.css" rel="stylesheet">
