@@ -27,35 +27,87 @@ var checkSortingNetwork = function() {
 
 };
 
+var renderUnsortedInputNP = function (unsortedInput, toBeShown) {
+    var unsortedInputAsHtml =
+        "<p>" +
+            "<span class='sn-property-value'>" +
+                unsortedInput.length +
+            "</span> " +
+            "<span class='top-username'>" +
+                " unsorted entries. First " +
+            "</span>" +
+            "<span class='sn-property-value' style='color: white'>" +
+                toBeShown +
+            "</span>" +
+        "</p>" +
+        "<p id=\"unsorted-input-text\">" +
+            unsortedInput.join("] - [") +
+        "</p>";
+    $("#unsorted-input").html(unsortedInputAsHtml);
+};
+
+var renderUnsortedInputP = function (unsortedInput, toBeShown) {
+    var unsortedInputAsHtmlPrefix = document.createElement("p");
+    var inputLengthSpan = document.createElement("span");
+    inputLengthSpan.classList.add('sn-property-value');
+    inputLengthSpan.appendChild(document.createTextNode(unsortedInput.length));
+    unsortedInputAsHtmlPrefix.appendChild(inputLengthSpan);
+
+    if (toBeShown) {
+
+        var prefixTextSpan = document.createElement("span");
+        prefixTextSpan.classList.add('top-username');
+        prefixTextSpan.appendChild(document.createTextNode(" unsorted entries. First "));
+        unsortedInputAsHtmlPrefix.appendChild(prefixTextSpan);
+
+        var toBeShownContainer = document.createElement("span");
+        toBeShownContainer.classList.add("sn-property-value");
+        toBeShownContainer.appendChild(document.createTextNode(toBeShown));
+        unsortedInputAsHtmlPrefix.appendChild(toBeShownContainer);
+
+        var toBeShownContainerSuffix = document.createElement("span");
+        toBeShownContainerSuffix.classList.add('top-username');
+        toBeShownContainerSuffix.appendChild(document.createTextNode(" are: "));
+        unsortedInputAsHtmlPrefix.appendChild(toBeShownContainerSuffix);
+
+        unsortedInput = unsortedInput.slice(0, toBeShown);
+
+    } else {
+
+        var prefixTextSpanShort = document.createElement("span");
+        prefixTextSpanShort.classList.add('top-username');
+        prefixTextSpanShort.appendChild(document.createTextNode(" unsorted entries: "));
+        unsortedInputAsHtmlPrefix.appendChild(prefixTextSpanShort);
+
+    }
+
+    var unsortedInputAsHtmlSuffix = document.createElement("p");
+    unsortedInputAsHtmlSuffix.setAttribute("id", "unsorted-input-text");
+    unsortedInputAsHtmlSuffix.appendChild(document.createTextNode( "["+ unsortedInput.join("] - [") + "]"));
+
+
+    var container = document.getElementById('unsorted-input');
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
+    container.appendChild(unsortedInputAsHtmlPrefix);
+    container.appendChild(unsortedInputAsHtmlSuffix);
+};
+
 var sortingNetworkChecked = function (unsortedInput) {
+    var start = Date.now();
     removeLoadingSpiner();
     if (unsortedInput.length === 0) {
         $("#unsorted-input").html("<span class='top-number'>Sorts everything !!!</span>");
     } else {
         console.log("Network can not sort this input: ");
         var toBeShown;
-        if (unsortedInput.length > 100000) {
-            toBeShown = 20;
-        } else {
-            toBeShown = unsortedInput.length;
+        if (unsortedInput.length >= 100) {
+            toBeShown = 100;
         }
         //TODO: Increase performance here
-        var unsortedInputAsHtml = "<p>" +
-                "<span class='sn-property-value'>" +
-                    unsortedInput.length +
-                "</span> " +
-                "<span class='top-username'>" +
-                    " unsorted entries. First "+
-                    "<span class='sn-property-value' style='color: white'>" +
-                        toBeShown +
-                    "</span>" +
-                    " are:" +
-                "</span>" +
-            "</p>" +
-            "<p id=\"unsorted-input-text\">" +
-                unsortedInput.join("] - [") +
-            "</p>";
-        document.getElementById('unsorted-input').innerHTML = unsortedInputAsHtml;
+        renderUnsortedInputP(unsortedInput, toBeShown);
+        console.log(Date.now() - start);
     }
 };
 

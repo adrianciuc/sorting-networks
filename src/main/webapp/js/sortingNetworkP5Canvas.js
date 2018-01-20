@@ -262,7 +262,7 @@ var getNetworkPropertiesContainer = function(sortingNetwork) {
     var element;
     var inTop = $("#sn-properties-" + sortingNetwork.id);
     var inCreation = $("#sn-properties");
-    inTop.length === 0 ? element = inCreation : element = inTop;
+    (inTop.length === 0 || $.trim(inTop.html())!=="") ? element = inCreation : element = inTop;
     return element;
 };
 
