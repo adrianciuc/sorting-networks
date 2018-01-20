@@ -226,7 +226,7 @@ var getComparatorClicked = function(p) {
     return comparatorClicked;
 };
 
-var removeComparatorFromSortingNetwork = function(comparatorClicked, sortingNetwork) {
+var removeComparatorFromSortingNetwork = function(p, comparatorClicked, sortingNetwork) {
     var pcThatContainsClickedComp = sortingNetwork.parallelComparators[comparatorClicked.parallelComparatorIndex];
     var comparatorRemoved = false;
     for (var i = 0; i < pcThatContainsClickedComp.comparators.length; i++) {
@@ -237,7 +237,6 @@ var removeComparatorFromSortingNetwork = function(comparatorClicked, sortingNetw
                 sortingNetwork.parallelComparators.splice(comparatorClicked.parallelComparatorIndex, 1);
             }
             comparatorRemoved = true;
-            snNeedToBeRedrawn = true;
             break;
         }
     }
@@ -248,13 +247,14 @@ var removeComparatorFromSortingNetwork = function(comparatorClicked, sortingNetw
             "user" : sortingNetworkInCreationProcess.user,
             "parallelComparators": []
         };
-        sortingNetworkInCreationProcess.parallelComparators.forEach(function(pc) {
+        sortingNetwork.parallelComparators.forEach(function(pc) {
             pc.comparators.forEach(function(comp) {
-                placeComparatorInAppropriateParallelComparatorsGroup(snAfterDeletion, comp);
+                placeComparatorAtTheEnd(snAfterDeletion, comp);
             });
         });
         sortingNetworkInCreationProcess = snAfterDeletion;
         preservePreviousSNStatesInUndoArray();
+        snNeedToBeRedrawn = true;
     }
 };
 
@@ -408,7 +408,7 @@ var sortingNetworkP5Canvas = function(p) {
             if (p.mouseButton === p.RIGHT) {
                 var comparatorClicked = getComparatorClicked(p);
                 if (comparatorClicked) {
-                    removeComparatorFromSortingNetwork(comparatorClicked, sortingNetworkInCreationProcess);
+                    removeComparatorFromSortingNetwork(p, comparatorClicked, sortingNetworkInCreationProcess);
                 }
             }
         };

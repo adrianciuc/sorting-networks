@@ -7,4 +7,5 @@ class SortingNetworkBean {
     Boolean sortsEverything
     Integer id
     List<ParallelComparatorsBean> parallelComparators
+    List unsortedInput
 }

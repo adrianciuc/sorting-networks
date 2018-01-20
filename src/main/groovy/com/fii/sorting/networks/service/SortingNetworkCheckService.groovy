@@ -14,8 +14,11 @@ class SortingNetworkCheckService {
 
     def checkIfSortsAllInput(CustomUserDetails authenticatedUser, SortingNetworkBean sortingNetworkBean) {
         if (authenticatedUser) {
-            def inputList = this.generateInput(sortingNetworkBean.numberOfWires)
-            def originalInputList = inputList.collect()
+            def inputList = sortingNetworkBean.unsortedInput ? sortingNetworkBean.unsortedInput :
+                    this.generateInput(sortingNetworkBean.numberOfWires)
+            def originalInputList = inputList.collect{
+                it.collect()
+            }
             def inputNotSorted = []
             inputList.each { input ->
                 sortInput(input, sortingNetworkBean)
@@ -27,7 +30,7 @@ class SortingNetworkCheckService {
         }
     }
 
-    private void checkIfItIsSorted(input, int index, inputNotSorted, originalInputList) {
+    private void checkIfItIsSorted(List input, Integer index, inputNotSorted, List originalInputList) {
         def sorted = true
         for (int i = 1; i < input.size(); i++) {
             if (input[i - 1] > input[i]) {
@@ -40,7 +43,7 @@ class SortingNetworkCheckService {
         }
     }
 
-    private List<ParallelComparatorsBean> sortInput(input, sortingNetworkBean) {
+    private List<ParallelComparatorsBean> sortInput(List input, sortingNetworkBean) {
         sortingNetworkBean.parallelComparators.each { pc ->
             pc.comparators.each { cmp ->
                 if (input[cmp.topWireNumber] > input[cmp.bottomWireNumber]) {

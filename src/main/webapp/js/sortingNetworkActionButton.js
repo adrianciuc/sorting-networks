@@ -27,25 +27,6 @@ var checkSortingNetwork = function() {
 
 };
 
-var renderUnsortedInputNP = function (unsortedInput, toBeShown) {
-    var unsortedInputAsHtml =
-        "<p>" +
-            "<span class='sn-property-value'>" +
-                unsortedInput.length +
-            "</span> " +
-            "<span class='top-username'>" +
-                " unsorted entries. First " +
-            "</span>" +
-            "<span class='sn-property-value' style='color: white'>" +
-                toBeShown +
-            "</span>" +
-        "</p>" +
-        "<p id=\"unsorted-input-text\">" +
-            unsortedInput.join("] - [") +
-        "</p>";
-    $("#unsorted-input").html(unsortedInputAsHtml);
-};
-
 var renderUnsortedInputP = function (unsortedInput, toBeShown) {
     var unsortedInputAsHtmlPrefix = document.createElement("p");
     var inputLengthSpan = document.createElement("span");
@@ -97,6 +78,7 @@ var renderUnsortedInputP = function (unsortedInput, toBeShown) {
 var sortingNetworkChecked = function (unsortedInput) {
     var start = Date.now();
     removeLoadingSpiner();
+    sortingNetworkInCreationProcess.unsortedInput = JSON.parse(JSON.stringify(unsortedInput));
     if (unsortedInput.length === 0) {
         $("#unsorted-input").html("<span class='top-number'>Sorts everything !!!</span>");
     } else {
