@@ -11,10 +11,12 @@ TopSortingNetworkService = function(sortingNetworkListContainerId, pillsContaine
 
     tsnSelf.renderNetworkProperties = function(network){
         var elementClass = "";
+        var topIdentifier = "";
         if (renderSortingNetworkRankAndOwner) {
             elementClass = " class=\"row\"";
+            topIdentifier = "-top";
         }
-        return "<div id=\"sn-properties-" + network.id + "\" "+ elementClass + "></div>";
+        return "<div id=\"sn-properties-" + network.id + topIdentifier + "\" "+ elementClass + "></div>";
     };
 
     tsnSelf.renderNetworkUserName = function (network, index) {

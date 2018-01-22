@@ -283,7 +283,7 @@ var showShortNetworkProperties = function (network) {
         completedClass = "fa-times-circle red-font";
         completedText = " Not completed "
     }
-    element.html(
+    var toRender =
         "<span>" +
             "<i class=\"fa " + completedClass + " sn-property-value\" aria-hidden=\"true\"></i>" +
             "<span class='top-username'>" +
@@ -300,7 +300,12 @@ var showShortNetworkProperties = function (network) {
             network.parallelComparators.length + "</span>" +
         "<span class='top-username'> " +
             "parallel comparators groups " +
-        "</span>&nbsp&nbsp");
+        "</span>&nbsp&nbsp";
+    element.html(toRender);
+    var otherOne = $("#sn-properties-" + network.id + "-top");
+    if (otherOne) {
+        otherOne.html(toRender);
+    }
 };
 
 var showSortingNetworkProperties = function(sortingNetwork) {
