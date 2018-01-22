@@ -38,6 +38,7 @@
     <!-- Custom CSS -->
     <link href="../../css/main.css" rel="stylesheet">
     <link href="../../css/productPresentation.css" rel="stylesheet">
+    <link href="../../css/arrow.css" rel="stylesheet">
 
     <!-- JQuery -->
     <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
@@ -65,6 +66,9 @@
                 <br>
                 <a href="/login" class="btn btn-dark btn-lg">Login</a>
                 <a href="/register" class="btn btn-dark btn-lg">Register</a>
+                <div>
+                    <div class="arrow arrow-first"></div>
+                </div>
             </div>
         </header>
 
