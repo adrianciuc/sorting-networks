@@ -27,19 +27,57 @@ var checkSortingNetwork = function() {
 
 };
 
+function addTextThatShowDifferenceBetweenNowAndLastUnsortedInput(container, unsortedInput,
+                                                                 unsortedInputAsHtmlPrefix) {
+    var prevValContainer = document.getElementById('unsorted-input-value');
+    if (container.firstChild && prevValContainer) {
+        var previousUnsortedInputLength = parseInt(
+            prevValContainer.textContent,
+            10);
+        var progressValue = unsortedInput.length - previousUnsortedInputLength;
+        var textToAdd;
+        if (progressValue >= 0) {
+            textToAdd = " more since last time) ";
+        } else {
+            textToAdd = " less since last time) ";
+        }
+        progressValue = Math.abs(progressValue);
+        var progressSpan = document.createElement('span');
+        progressSpan.classList.add('sn-property-value');
+        progressSpan.appendChild(document.createTextNode("" + progressValue));
+        var unsortedInputTextElement = unsortedInputAsHtmlPrefix.childNodes.item(2);
+        unsortedInputAsHtmlPrefix.insertBefore(progressSpan, unsortedInputTextElement);
+        var textToAddNodePrefix = document.createElement('span');
+        textToAddNodePrefix.classList.add('top-username');
+        textToAddNodePrefix.appendChild(document.createTextNode(" ( "));
+        unsortedInputAsHtmlPrefix.insertBefore(textToAddNodePrefix, progressSpan);
+        var textToAddNode = document.createElement('span');
+        textToAddNode.classList.add('top-username');
+        textToAddNode.appendChild(document.createTextNode(textToAdd));
+        unsortedInputAsHtmlPrefix.insertBefore(textToAddNode, unsortedInputTextElement);
+    }
+}
+
 var renderUnsortedInputP = function (unsortedInput, toBeShown) {
+    var container = document.getElementById('unsorted-input');
     var unsortedInputAsHtmlPrefix = document.createElement("p");
     var inputLengthSpan = document.createElement("span");
     inputLengthSpan.classList.add('sn-property-value');
+    inputLengthSpan.setAttribute('id', 'unsorted-input-value');
     inputLengthSpan.appendChild(document.createTextNode(unsortedInput.length));
     unsortedInputAsHtmlPrefix.appendChild(inputLengthSpan);
 
+    var prefixTextSpanShort = document.createElement("span");
+    prefixTextSpanShort.classList.add('top-username');
+    prefixTextSpanShort.appendChild(document.createTextNode(" unsorted entries "));
+    unsortedInputAsHtmlPrefix.appendChild(prefixTextSpanShort);
+
     if (toBeShown) {
 
-        var prefixTextSpan = document.createElement("span");
-        prefixTextSpan.classList.add('top-username');
-        prefixTextSpan.appendChild(document.createTextNode(" unsorted entries. First "));
-        unsortedInputAsHtmlPrefix.appendChild(prefixTextSpan);
+        var prefixTextSpanCont = document.createElement("span");
+        prefixTextSpanCont.classList.add('top-username');
+        prefixTextSpanCont.appendChild(document.createTextNode(" . First "));
+        unsortedInputAsHtmlPrefix.appendChild(prefixTextSpanCont);
 
         var toBeShownContainer = document.createElement("span");
         toBeShownContainer.classList.add("sn-property-value");
@@ -51,15 +89,17 @@ var renderUnsortedInputP = function (unsortedInput, toBeShown) {
         toBeShownContainerSuffix.appendChild(document.createTextNode(" are: "));
         unsortedInputAsHtmlPrefix.appendChild(toBeShownContainerSuffix);
 
+        addTextThatShowDifferenceBetweenNowAndLastUnsortedInput(container, unsortedInput, unsortedInputAsHtmlPrefix);
         unsortedInput = unsortedInput.slice(0, toBeShown);
 
     } else {
 
-        var prefixTextSpanShort = document.createElement("span");
-        prefixTextSpanShort.classList.add('top-username');
-        prefixTextSpanShort.appendChild(document.createTextNode(" unsorted entries: "));
-        unsortedInputAsHtmlPrefix.appendChild(prefixTextSpanShort);
+        var prefixTextSpanShortSign = document.createElement("span");
+        prefixTextSpanShortSign.classList.add('top-username');
+        prefixTextSpanShortSign.appendChild(document.createTextNode(":"));
+        unsortedInputAsHtmlPrefix.appendChild(prefixTextSpanShortSign);
 
+        addTextThatShowDifferenceBetweenNowAndLastUnsortedInput(container, unsortedInput, unsortedInputAsHtmlPrefix);
     }
 
     var unsortedInputAsHtmlSuffix = document.createElement("p");
@@ -67,7 +107,7 @@ var renderUnsortedInputP = function (unsortedInput, toBeShown) {
     unsortedInputAsHtmlSuffix.appendChild(document.createTextNode( "["+ unsortedInput.join("] - [") + "]"));
 
 
-    var container = document.getElementById('unsorted-input');
+
     while (container.firstChild) {
         container.removeChild(container.firstChild);
     }
