@@ -21,7 +21,7 @@ TopSortingNetworkService = function(sortingNetworkListContainerId, pillsContaine
 
     tsnSelf.renderNetworkUserName = function (network, index) {
         return tsnSelf.renderSortingNetworkRankAndOwner ?
-            "<div class=\"network-username col-lg-offset-2\">" +
+            "<div class=\"network-username col-lg-offset-2 col-sm-offset-2 col-xs-offset-2\">" +
             "<span class=\"top-number\">#" + (index + 1) + "</span>" +
             " by: " +
             "<span class=\"top-username\">" + network.user.firstName + " " + network.user.lastName + "</span>" +
