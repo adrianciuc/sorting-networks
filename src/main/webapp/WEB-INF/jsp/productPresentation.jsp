@@ -73,16 +73,37 @@
         </header>
 
         <!-- Top sorting networks title -->
-        <section id="top-name" class="top-name">
+        <section class="top-name">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12 text-center">
-                        <h2>Here is the top of the best sorting networks found by our players</h2>
+                    <div class="col-sm-4"><img src="../../img/green.gif" class="img-responsive"></a>
+                    </div>
+                    <div class="col-sm-8">
+                        <h2 class="title">SNG is inspired by this story:</h2>
+                        <p>
+                            Until 1969 the most efficient sorting network known for 16 wires,
+                            was one with 63 comparators obtained using Batcher's method.
+                            But in that year, M. W. Green discovered an even better one with 60 comparators.
+                            He didn't used a computer algorithm for that purpose, but instead, he drawn it and
+                            proved that it can sort any input.
+                            Since computers don't have until now an algorithm to follow in order to discover the
+                            most efficient sorting network for a given number of wires, users of this web application
+                            have a chance to find them.
+                        </p>
                     </div>
                 </div>
                 <!-- /.row -->
             </div>
             <!-- /.container -->
+        </section>
+        <section id="top-name" class="top-name bg-primary">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h2>Here is the top of the sorting networks found by our players</h2>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- Top sorting networks -->
