@@ -564,3 +564,44 @@ databaseChangeLog:
             tableName: sorting_network
         - sql:
             sql: UPDATE sorting_network SET sorts_everything=true WHERE id=2 OR id=3
+
+  - changeSet:
+      id: 17
+      author: adrian
+      precondition:
+        onFail: MARK_RAN
+        not:
+          and:
+            - sequenceExists:
+                sequenceName: user_id_seq
+            - sequenceExists:
+                sequenceName: sn_id_seq
+            - sequenceExists:
+                sequenceName: pc_id_seq
+            - sequenceExists:
+                sequenceName: cmp_id_seq
+      changes:
+        - sql:
+            sql: CREATE SEQUENCE user_id_seq MINVALUE 4 MAXVALUE 9999999999999999 START WITH 4 INCREMENT BY 1 CACHE 100
+        - sql:
+            sql: CREATE SEQUENCE sn_id_seq MINVALUE 100 MAXVALUE 9999999999999999 START WITH 100 INCREMENT BY 1 CACHE 100
+        - sql:
+            sql: CREATE SEQUENCE pc_id_seq MINVALUE 100 MAXVALUE 9999999999999999 START WITH 100 INCREMENT BY 1 CACHE 100
+        - sql:
+            sql: CREATE SEQUENCE cmp_id_seq MINVALUE 100 MAXVALUE 9999999999999999 START WITH 100 INCREMENT BY 1 CACHE 100
+        - addDefaultValue:
+            columnName: id
+            defaultValueSequenceNext: user_id_seq
+            tableName: user
+        - addDefaultValue:
+            columnName: id
+            defaultValueSequenceNext: sn_id_seq
+            tableName: sorting_network
+        - addDefaultValue:
+            columnName: id
+            defaultValueSequenceNext: pc_id_seq
+            tableName: parallel_comparators
+        - addDefaultValue:
+            columnName: id
+            defaultValueSequenceNext: cmp_id_seq
+            tableName: comparator
