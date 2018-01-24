@@ -95,7 +95,11 @@ TopSortingNetworkService = function(sortingNetworkListContainerId, pillsContaine
                 secondNumberOfComparators.comparators ?
                     secondNumberOfComparators.comparators.length :
                     secondNumberOfComparators;
-            return firstNumberOfComparators - secondNumberOfComparators;
+            var cmpDifference = firstNumberOfComparators - secondNumberOfComparators;
+            if (cmpDifference === 0) {
+                return first.parallelComparators.length - second.parallelComparators.length;
+            }
+            return cmpDifference;
         });
     };
 

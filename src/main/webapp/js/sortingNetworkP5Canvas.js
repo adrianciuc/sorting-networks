@@ -296,11 +296,12 @@ var showShortNetworkProperties = function (network) {
         "<span class='top-username'> " +
             "comparators and " +
         "</span>" +
+        "<span class='top-username'> " +
+            "depth " +
+        "</span>" +
         "<span class='sn-property-value'>" +
             network.parallelComparators.length + "</span>" +
-        "<span class='top-username'> " +
-            "parallel comparators groups " +
-        "</span>&nbsp&nbsp";
+        "&nbsp&nbsp";
     element.html(toRender);
     var otherOne = $("#sn-properties-" + network.id + "-top");
     if (otherOne) {
@@ -318,7 +319,7 @@ var showSortingNetworkProperties = function(sortingNetwork) {
             sortingNetwork.numberOfWires +
         "</span>&nbsp&nbsp" +
         "<span class='top-username'>" +
-            "Nr. of parallel comparators groups: " +
+            "Depth: " +
         "</span>" +
         "<span class='sn-property-value'>" +
             sortingNetwork.parallelComparators.length +
